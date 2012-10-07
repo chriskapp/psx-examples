@@ -1,0 +1,25 @@
+
+.asc
+{
+	background-image:url(../img/icons/sort_asc.png);
+	background-repeat:no-repeat;
+	background-position:right;
+}
+
+.desc
+{
+	background-image:url(../img/icons/sort_desc.png);
+	background-repeat:no-repeat;
+	background-position:right;
+}
+
+.openid
+{
+	width:312px;
+	padding:4px;
+	background-image:url(../img/openid.gif);
+	background-repeat:no-repeat;
+	background-position:2px 4px;
+	text-indent:16px;
+}
+
