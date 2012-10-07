@@ -24,7 +24,7 @@ do not hesitate to contact me.</p>
 <h2>Milestones</h2>
 
 <ul>
-	<li>07.10.2012 Import to git <a href="https://github.com/k42b3/psx-examples/downloads">repository</a></li>
+	<li>07.10.2012 Import to git <a href="https://github.com/k42b3/psx-examples">repository</a></li>
 	<li>07.10.2012 Improved application structure and added oauth2 client test</li>
 	<li>24.10.2011 First release of example.phpsx.org</li>
 </ul>
