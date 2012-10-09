@@ -15,35 +15,23 @@ URL an location where you want discover an XRDS document.</p>
 <?php if(!isset($error)): ?>
 
 	<form method="post" action="<?php echo $self; ?>">
-
 	<p>
-		<label for="url">URL:</label><br />
+		<label for="url">URL:</label>
 		<input type="url" name="url" id="url" value="<?php echo !empty($discoverUrl) ? $discoverUrl : 'http://k42b3.myopenid.com/'; ?>" style="width:312px;" />
 	</p>
-
 	<p>
 		<input class="btn btn-primary" type="submit" />
 	</p>
-
 	</form>
 
-
 	<?php if(isset($response)): ?>
-
 		<hr />
-
 		<h2>XRDS</h2>
-
 		<?php if($response !== false): ?>
-
 			<pre><?php echo $response; ?></pre>
-
 		<?php else: ?>
-
 			<p>No XRDS discovered</p>
-
 		<?php endif; ?>
-
 	<?php endif; ?>
 
 <?php else: ?>
