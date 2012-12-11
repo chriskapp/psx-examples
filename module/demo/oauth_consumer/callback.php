@@ -1,5 +1,14 @@
 <?php
 
+namespace demo\oauth_consumer;
+
+use PSX_Filter_Length;
+use PSX_Http;
+use PSX_Http_Handler_Curl;
+use PSX_Module_ViewAbstract;
+use PSX_Oauth;
+use PSX_Session;
+
 class callback extends PSX_Module_ViewAbstract
 {
 	private $http;
@@ -18,7 +27,7 @@ class callback extends PSX_Module_ViewAbstract
 		$this->session  = new PSX_Session('oc');
 		$this->session->start();
 
-		$this->template->set('demo/oauth_consumer/' . __CLASS__ . '.tpl');
+		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function onGet()

@@ -1,5 +1,18 @@
 <?php
 
+namespace demo\oauth2_client;
+
+use PSX_Exception;
+use PSX_Filter_Length;
+use PSX_Filter_Url;
+use PSX_Http;
+use PSX_Http_GetRequest;
+use PSX_Http_PostRequest;
+use PSX_Module_ViewAbstract;
+use PSX_Oauth2;
+use PSX_Session;
+use PSX_Url;
+
 class request_api extends PSX_Module_ViewAbstract
 {
 	private $http;
@@ -19,7 +32,7 @@ class request_api extends PSX_Module_ViewAbstract
 		$this->validate = $this->getValidator();
 		$this->post     = $this->getBody();
 
-		$this->template->set('demo/oauth2_client/' . __CLASS__ . '.tpl');
+		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function onGet()

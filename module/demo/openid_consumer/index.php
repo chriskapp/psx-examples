@@ -1,5 +1,15 @@
 <?php
 
+namespace demo\openid_consumer;
+
+use PSX_Filter_Length;
+use PSX_Http;
+use PSX_Http_Handler_Curl;
+use PSX_Module_ViewAbstract;
+use PSX_OpenId;
+use PSX_OpenId_Extension_Ax;
+use PSX_Session;
+
 class index extends PSX_Module_ViewAbstract
 {
 	private $http;
@@ -27,7 +37,7 @@ class index extends PSX_Module_ViewAbstract
 
 		$this->template->assign('authed', $this->session->get('oi_authed'));
 
-		$this->template->set('demo/openid_consumer/' . __CLASS__ . '.tpl');
+		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function onPost()

@@ -1,5 +1,11 @@
 <?php
 
+namespace demo\sql_operations;
+
+use PSX_Module_ViewAbstract;
+use PSX_Sql;
+use PSX_Sql_Condition;
+
 class index extends PSX_Module_ViewAbstract
 {
 	private $sql;
@@ -101,6 +107,6 @@ class index extends PSX_Module_ViewAbstract
 		*/
 
 
-		$this->template->set('demo/sql_operations/' . __CLASS__ . '.tpl');
+		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 }

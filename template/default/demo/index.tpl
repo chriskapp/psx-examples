@@ -24,6 +24,7 @@ do not hesitate to contact me.</p>
 <h2>Milestones</h2>
 
 <ul>
+	<li>11.12.2012 Update PSX to version 0.4.7</li>
 	<li>09.10.2012 Added html filter and lexer demo</li>
 	<li>07.10.2012 Import to git <a href="https://github.com/k42b3/psx-examples">repository</a></li>
 	<li>07.10.2012 Improved application structure and added oauth2 client test</li>

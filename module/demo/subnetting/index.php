@@ -1,5 +1,11 @@
 <?php
 
+namespace demo\subnetting;
+
+use PSX_Exception;
+use PSX_Filter_Length;
+use PSX_Module_ViewAbstract;
+
 class index extends PSX_Module_ViewAbstract
 {
 	private $a;
@@ -25,7 +31,7 @@ class index extends PSX_Module_ViewAbstract
 		$this->template->assign('d', $this->d);
 		$this->template->assign('s', $this->s);
 
-		$this->template->set('demo/subnetting/' . __CLASS__ . '.tpl');
+		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function onPost()

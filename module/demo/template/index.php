@@ -1,5 +1,9 @@
 <?php
 
+namespace demo\template;
+
+use PSX_Module_ViewAbstract;
+
 class index extends PSX_Module_ViewAbstract
 {
 	public function onLoad()
@@ -15,6 +19,6 @@ class index extends PSX_Module_ViewAbstract
 		$this->template->assign('foo', 'bar');
 		$this->template->assign('jodah', 'power');
 
-		$this->template->set('demo/template/' . __CLASS__ . '.tpl');
+		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 }

@@ -1,10 +1,19 @@
 <?php
 
+namespace demo\html_lexer;
+
+use PSX_Filter_Length;
+use PSX_Filter_Url;
+use PSX_Html_Lexer;
+use PSX_Http;
+use PSX_Http_GetRequest;
+use PSX_Module_ViewAbstract;
+
 class index extends PSX_Module_ViewAbstract
 {
 	public function onLoad()
 	{
-		$this->template->set('demo/html_lexer/' . __CLASS__ . '.tpl');
+		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function onPost()

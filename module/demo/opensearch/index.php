@@ -1,5 +1,9 @@
 <?php
 
+namespace demo\opensearch;
+
+use PSX_Opensearch_ProviderAbstract;
+
 class index extends PSX_Opensearch_ProviderAbstract
 {
 	public function onLoad()

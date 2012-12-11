@@ -1,5 +1,15 @@
 <?php
 
+namespace demo\oauth2_client;
+
+use PSX_Filter_Length;
+use PSX_Filter_Url;
+use PSX_Http;
+use PSX_Module_ViewAbstract;
+use PSX_Oauth2_Authorization_AuthorizationCode;
+use PSX_Session;
+use PSX_Url;
+
 class index extends PSX_Module_ViewAbstract
 {
 	private $http;
@@ -20,7 +30,7 @@ class index extends PSX_Module_ViewAbstract
 		$this->template->assign('oc_client_id', $this->session->get('oc_client_id'));
 		$this->template->assign('oc_client_secret', $this->session->get('oc_client_secret'));
 
-		$this->template->set('demo/oauth2_client/' . __CLASS__ . '.tpl');
+		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function onGet()

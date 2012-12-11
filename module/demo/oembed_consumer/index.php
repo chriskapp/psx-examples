@@ -1,10 +1,21 @@
 <?php
 
+namespace demo\oembed_consumer;
+
+use PSX_Exception;
+use PSX_Filter_Length;
+use PSX_Filter_Url;
+use PSX_Http;
+use PSX_Http_Handler_Curl;
+use PSX_Module_ViewAbstract;
+use PSX_Oembed;
+use PSX_Url;
+
 class index extends PSX_Module_ViewAbstract
 {
 	public function onLoad()
 	{
-		$this->template->set('demo/oembed_consumer/' . __CLASS__ . '.tpl');
+		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function onPost()

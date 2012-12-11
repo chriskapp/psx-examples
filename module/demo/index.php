@@ -1,5 +1,9 @@
 <?php
 
+namespace demo;
+
+use PSX_Module_ViewAbstract;
+
 class index extends PSX_Module_ViewAbstract
 {
 	public function onLoad()

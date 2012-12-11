@@ -1,5 +1,13 @@
 <?php
 
+namespace demo\http_request;
+
+use PSX_Http;
+use PSX_Http_GetRequest;
+use PSX_Http_Handler_Curl;
+use PSX_ModuleAbstract;
+use PSX_Url;
+
 class index extends PSX_ModuleAbstract
 {
 	public function onLoad()

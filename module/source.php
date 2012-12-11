@@ -5,11 +5,14 @@ class source extends PSX_ModuleAbstract
 	const CACHE_EXPIRE = 604800; // ca 1 week
 	const CACHE_UUID_MAP_EXPIRE = 2419200; // ca 1 month
 
+	/**
+	 * @httpMethod GET
+	 * @path /library/{uuid}
+	 */
 	public function library()
 	{
-		$fragments = $this->getUriFragments();
-		$uuid      = isset($fragments[0]) ? $fragments[0] : null;
-		$cache     = new PSX_Cache('library-' . $uuid, self::CACHE_EXPIRE);
+		$uuid  = $this->getUriFragments('uuid');
+		$cache = new PSX_Cache('library-' . $uuid, self::CACHE_EXPIRE);
 
 		if(($content = $cache->load()) === false)
 		{
@@ -31,11 +34,14 @@ class source extends PSX_ModuleAbstract
 		echo $content;
 	}
 
+	/**
+	 * @httpMethod GET
+	 * @path /module/{uuid}
+	 */
 	public function module()
 	{
-		$fragments = $this->getUriFragments();
-		$uuid      = isset($fragments[0]) ? $fragments[0] : null;
-		$cache     = new PSX_Cache('module-' . $uuid, self::CACHE_EXPIRE);
+		$uuid  = $this->getUriFragments('uuid');
+		$cache = new PSX_Cache('module-' . $uuid, self::CACHE_EXPIRE);
 
 		if(($content = $cache->load()) === false)
 		{
@@ -57,11 +63,14 @@ class source extends PSX_ModuleAbstract
 		echo $content;
 	}
 
+	/**
+	 * @httpMethod GET
+	 * @path /template/{uuid}
+	 */
 	public function template()
 	{
-		$fragments = $this->getUriFragments();
-		$uuid      = isset($fragments[0]) ? $fragments[0] : null;
-		$cache     = new PSX_Cache('template-' . $uuid, self::CACHE_EXPIRE);
+		$uuid  = $this->getUriFragments('uuid');
+		$cache = new PSX_Cache('template-' . $uuid, self::CACHE_EXPIRE);
 
 		if(($content = $cache->load()) === false)
 		{

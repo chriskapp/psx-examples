@@ -1,5 +1,14 @@
 <?php
 
+namespace demo\oauth2_client;
+
+use Exception;
+use PSX_Http;
+use PSX_Module_ViewAbstract;
+use PSX_Oauth2_Authorization_AuthorizationCode;
+use PSX_Session;
+use PSX_Url;
+
 class callback extends PSX_Module_ViewAbstract
 {
 	private $http;
@@ -17,7 +26,7 @@ class callback extends PSX_Module_ViewAbstract
 		$this->validate = $this->getValidator();
 		$this->post     = $this->getBody();
 
-		$this->template->set('demo/oauth2_client/' . __CLASS__ . '.tpl');
+		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function onGet()

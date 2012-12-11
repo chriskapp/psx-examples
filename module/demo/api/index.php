@@ -1,5 +1,17 @@
 <?php
 
+namespace demo\api;
+
+use DateTime;
+use Example_Handler;
+use Example_Table;
+use Exception;
+use PSX_Data_Message;
+use PSX_Data_WriterInterface;
+use PSX_Data_WriterResult;
+use PSX_Module_ApiAbstract;
+use PSX_Sql;
+
 /**
  * This is an example howto create an REST API endpoint where you can GET and 
  * POST PUT and DELETE an record. The API supports XML, JSON, Atom and Rss. You 

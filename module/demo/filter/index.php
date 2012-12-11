@@ -1,5 +1,26 @@
 <?php
 
+namespace demo\filter;
+
+use PSX_Filter_Alnum;
+use PSX_Filter_Alpha;
+use PSX_Filter_DateInterval;
+use PSX_Filter_DateTime;
+use PSX_Filter_Digit;
+use PSX_Filter_Email;
+use PSX_Filter_Html;
+use PSX_Filter_InArray;
+use PSX_Filter_Ip;
+use PSX_Filter_KeyExists;
+use PSX_Filter_Length;
+use PSX_Filter_Md5;
+use PSX_Filter_Regexp;
+use PSX_Filter_Sha1;
+use PSX_Filter_Url;
+use PSX_Filter_Xdigit;
+use PSX_Input;
+use PSX_Module_ViewAbstract;
+
 class index extends PSX_Module_ViewAbstract
 {
 	public function onLoad()
@@ -11,7 +32,7 @@ class index extends PSX_Module_ViewAbstract
 			$this->template->assign('error', $this->getValidator()->getError());
 		}
 
-		$this->template->set('demo/filter/' . __CLASS__ . '.tpl');
+		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function getPostResult(PSX_Input $input)

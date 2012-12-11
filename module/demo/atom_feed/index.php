@@ -1,5 +1,10 @@
 <?php
 
+namespace demo\atom_feed;
+
+use PSX_Atom;
+use PSX_Module_ViewAbstract;
+
 class index extends PSX_Module_ViewAbstract
 {
 	public function onLoad()
@@ -9,6 +14,6 @@ class index extends PSX_Module_ViewAbstract
 
 		$this->template->assign('result', $atom);
 		$this->template->assign('feedUrl', $url);
-		$this->template->set('demo/atom_feed/' . __CLASS__ . '.tpl');
+		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 }

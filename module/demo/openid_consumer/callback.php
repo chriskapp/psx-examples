@@ -1,10 +1,19 @@
 <?php
 
+namespace demo\openid_consumer;
+
+use Exception;
+use PSX_Http;
+use PSX_Http_Handler_Curl;
+use PSX_Module_ViewAbstract;
+use PSX_OpenId;
+use PSX_OpenId_Exception;
+use PSX_Session;
+
 class callback extends PSX_Module_ViewAbstract
 {
 	private $http;
 	private $openid;
-
 	private $validate;
 	private $session;
 	private $post;
