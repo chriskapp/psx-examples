@@ -1,10 +1,15 @@
 <?php
 
-class navigation extends PSX_ModuleAbstract
+use PSX\ModuleAbstract;
+use PSX\Cache;
+use PSX\Json;
+use PSX\Util\Uuid;
+
+class navigation extends ModuleAbstract
 {
 	public function onLoad()
 	{
-		$cache = new PSX_Cache('[navigation]', 1);
+		$cache = new Cache('[navigation]', 1);
 
 		if(($content = $cache->load()) === false)
 		{
@@ -12,7 +17,7 @@ class navigation extends PSX_ModuleAbstract
 			$demos = $this->scanRecDir($path);
 
 
-			$content = PSX_Json::encode($demos);
+			$content = Json::encode($demos);
 
 			if(!$this->config['psx_debug'])
 			{
@@ -73,7 +78,7 @@ class navigation extends PSX_ModuleAbstract
 						$module['children'][] = array(
 
 							'text'     => 'Module',
-							'source'   => $this->config['psx_url'] . '/' . $this->config['psx_dispatch'] . 'source/module/' . PSX_Util_Uuid::nameBased($defaultModule),
+							'source'   => $this->config['psx_url'] . '/' . $this->config['psx_dispatch'] . 'source/module/' . Uuid::nameBased($defaultModule),
 							'iconCls'  => 'example-module',
 							'leaf'     => false,
 							'children' => $this->scanRecDir($item, $deep + 1)
@@ -89,7 +94,7 @@ class navigation extends PSX_ModuleAbstract
 						$module['children'][] = array(
 
 							'text'     => 'Template',
-							'source'   => $this->config['psx_url'] . '/' . $this->config['psx_dispatch'] . 'source/template/' . PSX_Util_Uuid::nameBased($defaultTemplate),
+							'source'   => $this->config['psx_url'] . '/' . $this->config['psx_dispatch'] . 'source/template/' . Uuid::nameBased($defaultTemplate),
 							'iconCls'  => 'example-template',
 							'leaf'     => false,
 							'children' => $this->scanRecDir(PSX_PATH_TEMPLATE . '/default/demo/' . $file, $deep + 1)
@@ -109,11 +114,11 @@ class navigation extends PSX_ModuleAbstract
 
 					if(strpos($item, PSX_PATH_TEMPLATE) === false)
 					{
-						$href = $this->config['psx_url'] . '/' . $this->config['psx_dispatch'] . 'source/module/' . PSX_Util_Uuid::nameBased($item);
+						$href = $this->config['psx_url'] . '/' . $this->config['psx_dispatch'] . 'source/module/' . Uuid::nameBased($item);
 					}
 					else
 					{
-						$href = $this->config['psx_url'] . '/' . $this->config['psx_dispatch'] . 'source/template/' . PSX_Util_Uuid::nameBased($item);
+						$href = $this->config['psx_url'] . '/' . $this->config['psx_dispatch'] . 'source/template/' . Uuid::nameBased($item);
 					}
 
 					array_push($demos, array(

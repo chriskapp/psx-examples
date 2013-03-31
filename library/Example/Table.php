@@ -1,6 +1,10 @@
 <?php
 
-class Example_Table extends PSX_Sql_TableAbstract
+namespace Example;
+
+use PSX\Sql\TableAbstract;
+
+class Table extends TableAbstract
 {
 	public function getConnections()
 	{

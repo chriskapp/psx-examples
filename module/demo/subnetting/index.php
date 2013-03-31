@@ -2,11 +2,11 @@
 
 namespace demo\subnetting;
 
-use PSX_Exception;
-use PSX_Filter_Length;
-use PSX_Module_ViewAbstract;
+use PSX\Exception;
+use PSX\Filter;
+use PSX\Module\ViewAbstract;
 
-class index extends PSX_Module_ViewAbstract
+class index extends ViewAbstract
 {
 	private $a;
 	private $b;
@@ -19,11 +19,11 @@ class index extends PSX_Module_ViewAbstract
 		$validate = $this->getValidator();
 		$post     = $this->getBody();
 
-		$this->a = $post->a('integer', array(new PSX_Filter_Length(0, 255)));
-		$this->b = $post->b('integer', array(new PSX_Filter_Length(0, 255)));
-		$this->c = $post->c('integer', array(new PSX_Filter_Length(0, 255)));
-		$this->d = $post->d('integer', array(new PSX_Filter_Length(0, 255)));
-		$this->s = $post->s('integer', array(new PSX_Filter_Length(1, 31)));
+		$this->a = $post->a('integer', array(new Filter\Length(0, 255)));
+		$this->b = $post->b('integer', array(new Filter\Length(0, 255)));
+		$this->c = $post->c('integer', array(new Filter\Length(0, 255)));
+		$this->d = $post->d('integer', array(new Filter\Length(0, 255)));
+		$this->s = $post->s('integer', array(new Filter\Length(1, 31)));
 
 		$this->template->assign('a', $this->a);
 		$this->template->assign('b', $this->b);
@@ -74,7 +74,7 @@ class index extends PSX_Module_ViewAbstract
 	{
 		if(count($ip) != 4 || count($subnet) != 4)
 		{
-			throw new PSX_Exception('Invalid ip or subnet format must be i.e. 0.0.0.0');
+			throw new Exception('Invalid ip or subnet format must be i.e. 0.0.0.0');
 		}
 
 		$subnet  = array_map('intval', $subnet);
@@ -93,7 +93,7 @@ class index extends PSX_Module_ViewAbstract
 	{
 		if(count($network) != 4 || count($subnet) != 4)
 		{
-			throw new PSX_Exception('Invalid network or subnet format must be i.e. 0.0.0.0');
+			throw new Exception('Invalid network or subnet format must be i.e. 0.0.0.0');
 		}
 
 		$count  = substr_count(implode('', array_map('decbin', $subnet)), '1');

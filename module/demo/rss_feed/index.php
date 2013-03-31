@@ -2,15 +2,15 @@
 
 namespace demo\rss_feed;
 
-use PSX_Module_ViewAbstract;
-use PSX_Rss;
+use PSX\Module\ViewAbstract;
+use PSX\Rss;
 
-class index extends PSX_Module_ViewAbstract
+class index extends ViewAbstract
 {
 	public function onLoad()
 	{
 		$url = 'http://test.phpsx.org/index.php/rss/feed';
-		$rss = PSX_Rss::request($url);
+		$rss = Rss::request($url);
 
 		$this->template->assign('result', $rss);
 		$this->template->assign('feedUrl', $url);

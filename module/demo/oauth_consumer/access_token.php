@@ -2,31 +2,30 @@
 
 namespace demo\oauth_consumer;
 
-use PSX_Filter_Length;
-use PSX_Filter_Url;
-use PSX_Http;
-use PSX_Http_Handler_Curl;
-use PSX_Module_ViewAbstract;
-use PSX_Oauth;
-use PSX_Session;
-use PSX_Url;
+use PSX\Filter;
+use PSX\Http;
+use PSX\Http\Handler\Curl;
+use PSX\Module\ViewAbstract;
+use PSX\Oauth;
+use PSX\Session;
+use PSX\Url;
 
-class access_token extends PSX_Module_ViewAbstract
+class access_token extends ViewAbstract
 {
-	private $http;
-	private $oauth;
-	private $session;
-	private $validate;
-	private $post;
+	protected $http;
+	protected $oauth;
+	protected $session;
+	protected $validate;
+	protected $post;
 
 	public function onLoad()
 	{
-		$this->http     = new PSX_Http(new PSX_Http_Handler_Curl());
-		$this->oauth    = new PSX_Oauth($this->http);
+		$this->http     = new Http();
+		$this->oauth    = new Oauth($this->http);
 		$this->validate = $this->getValidator();
 		$this->post     = $this->getBody();
 
-		$this->session  = new PSX_Session('oc');
+		$this->session  = new Session('oc');
 		$this->session->start();
 
 		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
@@ -51,11 +50,11 @@ class access_token extends PSX_Module_ViewAbstract
 		$tokenSecret    = $this->session->get('oc_token_secret');
 		$verifier       = $this->session->get('oc_verifier');
 
-		$url = $this->post->url('string', array(new PSX_Filter_Length(3, 256), new PSX_Filter_Url()));
+		$url = $this->post->url('string', array(new Filter\Length(3, 256), new Filter\Url()));
 
 		if(!$this->validate->hasError())
 		{
-			$url = new PSX_Url($url);
+			$url = new Url($url);
 
 			$response = $this->oauth->accessToken($url, $consumerKey, $consumerSecret, $token, $tokenSecret, $verifier);
 

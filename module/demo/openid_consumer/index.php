@@ -2,30 +2,29 @@
 
 namespace demo\openid_consumer;
 
-use PSX_Filter_Length;
-use PSX_Http;
-use PSX_Http_Handler_Curl;
-use PSX_Module_ViewAbstract;
-use PSX_OpenId;
-use PSX_OpenId_Extension_Ax;
-use PSX_Session;
+use PSX\Filter;
+use PSX\Http;
+use PSX\Module\ViewAbstract;
+use PSX\OpenId;
+use PSX\OpenId\Extension;
+use PSX\Session;
 
-class index extends PSX_Module_ViewAbstract
+class index extends ViewAbstract
 {
-	private $http;
-	private $openid;
-	private $validate;
-	private $post;
-	private $session;
+	protected $http;
+	protected $openid;
+	protected $validate;
+	protected $post;
+	protected $session;
 
 	public function onLoad()
 	{
-		$this->http     = new PSX_Http(new PSX_Http_Handler_Curl());
-		$this->openid   = new PSX_OpenId($this->http, $this->config['psx_url']);
+		$this->http     = new Http();
+		$this->openid   = new OpenId($this->http, $this->config['psx_url']);
 		$this->validate = $this->getValidator();
 		$this->post     = $this->getBody();
 
-		$this->session  = new PSX_Session('oi');
+		$this->session  = new Session('oi');
 		$this->session->start();
 
 		if($this->session->get('oi_authed') == true)
@@ -42,7 +41,7 @@ class index extends PSX_Module_ViewAbstract
 
 	public function onPost()
 	{
-		$identity = $this->post->openid_identifier('string', array(new PSX_Filter_Length(3, 256)));
+		$identity = $this->post->openid_identifier('string', array(new Filter\Length(3, 256)));
 		$returnTo = $this->config['psx_url'] . '/' . $this->config['psx_dispatch'] . 'demo/openid_consumer/callback';
 
 		if(!$this->validate->hasError())
@@ -51,7 +50,7 @@ class index extends PSX_Module_ViewAbstract
 
 
 			// add ax extension if supported by the provider
-			$ax = new PSX_OpenId_Extension_Ax(array(
+			$ax = new Extension\Ax(array(
 
 				'fullname'  => 'http://axschema.org/namePerson',
 				'firstname' => 'http://axschema.org/namePerson/first',
@@ -75,6 +74,10 @@ class index extends PSX_Module_ViewAbstract
 		}
 	}
 
+	/**
+	 * @httpMethod GET
+	 * @path /logout
+	 */
 	public function logout()
 	{
 		$this->session->destroy();

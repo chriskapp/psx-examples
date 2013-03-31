@@ -2,28 +2,26 @@
 
 namespace demo\openid_consumer;
 
-use Exception;
-use PSX_Http;
-use PSX_Http_Handler_Curl;
-use PSX_Module_ViewAbstract;
-use PSX_OpenId;
-use PSX_OpenId_Exception;
-use PSX_Session;
+use PSX\Exception;
+use PSX\Http;
+use PSX\Module\ViewAbstract;
+use PSX\OpenId;
+use PSX\Session;
 
-class callback extends PSX_Module_ViewAbstract
+class callback extends ViewAbstract
 {
-	private $http;
-	private $openid;
-	private $validate;
-	private $session;
-	private $post;
+	protected $http;
+	protected $openid;
+	protected $validate;
+	protected $session;
+	protected $post;
 
 	public function onLoad()
 	{
-		$this->http     = new PSX_Http(new PSX_Http_Handler_Curl());
-		$this->openid   = new PSX_OpenId($this->http, $this->config['psx_url']);
+		$this->http     = new Http();
+		$this->openid   = new OpenId($this->http, $this->config['psx_url']);
 
-		$this->session  = new PSX_Session('oi');
+		$this->session  = new Session('oi');
 		$this->session->start();
 	}
 
@@ -34,7 +32,7 @@ class callback extends PSX_Module_ViewAbstract
 			if($this->openid->verify() === true)
 			{
 				$data     = $this->openid->getData();
-				$identity = PSX_OpenId::normalizeIdentifier((string) $this->openid->getIdentity()->getLocalId());
+				$identity = OpenId::normalizeIdentifier((string) $this->openid->getIdentity()->getLocalId());
 
 				if(!empty($identity))
 				{
@@ -100,11 +98,11 @@ class callback extends PSX_Module_ViewAbstract
 				}
 				else
 				{
-					throw new PSX_OpenId_Exception('Couldnt get identity');
+					throw new OpenId_Exception('Couldnt get identity');
 				}
 			}
 		}
-		catch(Exception $e)
+		catch(\Exception $e)
 		{
 			$this->template->assign('error', $e->getMessage() . '<br />' . $e->getTraceAsString());
 		}

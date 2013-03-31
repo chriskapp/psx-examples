@@ -2,31 +2,30 @@
 
 namespace demo\oauth2_client;
 
-use PSX_Exception;
-use PSX_Filter_Length;
-use PSX_Filter_Url;
-use PSX_Http;
-use PSX_Http_GetRequest;
-use PSX_Http_PostRequest;
-use PSX_Module_ViewAbstract;
-use PSX_Oauth2;
-use PSX_Session;
-use PSX_Url;
+use PSX\Exception;
+use PSX\Filter;
+use PSX\Http;
+use PSX\Http\GetRequest;
+use PSX\Http\PostRequest;
+use PSX\Module\ViewAbstract;
+use PSX\Oauth2;
+use PSX\Oauth2\AccessToken;
+use PSX\Session;
+use PSX\Url;
 
-class request_api extends PSX_Module_ViewAbstract
+class request_api extends ViewAbstract
 {
-	private $http;
-	private $oauth;
-	private $session;
-
-	private $validate;
-	private $post;
+	protected $http;
+	protected $oauth;
+	protected $session;
+	protected $validate;
+	protected $post;
 
 	public function onLoad()
 	{
-		$this->http     = new PSX_Http();
-		$this->oauth    = new PSX_Oauth2($this->http);
-		$this->session  = new PSX_Session('o2c');
+		$this->http     = new Http();
+		$this->oauth    = new Oauth2($this->http);
+		$this->session  = new Session('o2c');
 		$this->session->start();
 
 		$this->validate = $this->getValidator();
@@ -41,19 +40,26 @@ class request_api extends PSX_Module_ViewAbstract
 
 	public function onPost()
 	{
-		$accessToken = $this->session->get('oc_access_token');
+		$token = $this->session->get('oc_access_token');
 
-		if(!($accessToken instanceof PSX_Oauth2_AccessToken))
+		if(empty($token))
 		{
-			throw new PSX_Exception('Access token is not available');
+			throw new Exception('Access token is not available');
 		}
 
-		$url  = $this->post->url('string', array(new PSX_Filter_Length(3, 256), new PSX_Filter_Url()));
-		$body = $this->post->body('string', array(new PSX_Filter_Length(0, 1024)));
+		$accessToken = new AccessToken();
+		$accessToken->setAccessToken($token['access_token']);
+		$accessToken->setTokenType($token['token_type']);
+		$accessToken->setExpiresIn($token['expires_in']);
+		$accessToken->setRefreshToken($token['refresh_token']);
+		$accessToken->setScope($token['scope']);
+
+		$url  = $this->post->url('string', array(new Filter\Length(3, 256), new Filter\Url()));
+		$body = $this->post->body('string', array(new Filter\Length(0, 1024)));
 
 		if(!$this->validate->hasError())
 		{
-			$url    = new PSX_Url($url);
+			$url    = new Url($url);
 			$body   = trim($body);
 			$header = array(
 
@@ -63,11 +69,11 @@ class request_api extends PSX_Module_ViewAbstract
 
 			if(!empty($body))
 			{
-				$request = new PSX_Http_PostRequest($url, $header, $body);
+				$request = new PostRequest($url, $header, $body);
 			}
 			else
 			{
-				$request = new PSX_Http_GetRequest($url, $header);
+				$request = new GetRequest($url, $header);
 			}
 
 
@@ -82,6 +88,10 @@ class request_api extends PSX_Module_ViewAbstract
 		}
 	}
 
+	/**
+	 * @httpMethod GET
+	 * @path /logout
+	 */
 	public function logout()
 	{
 		$this->session->destroy();

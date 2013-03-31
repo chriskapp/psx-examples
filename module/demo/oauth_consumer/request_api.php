@@ -2,34 +2,32 @@
 
 namespace demo\oauth_consumer;
 
-use PSX_Filter_InArray;
-use PSX_Filter_Length;
-use PSX_Filter_Url;
-use PSX_Http;
-use PSX_Http_GetRequest;
-use PSX_Http_Handler_Curl;
-use PSX_Http_PostRequest;
-use PSX_Module_ViewAbstract;
-use PSX_Oauth;
-use PSX_Session;
-use PSX_Url;
+use PSX\Filter;
+use PSX\Http;
+use PSX\Http\GetRequest;
+use PSX\Http\Handler\Curl;
+use PSX\Http\PostRequest;
+use PSX\Module\ViewAbstract;
+use PSX\Oauth;
+use PSX\Session;
+use PSX\Url;
 
-class request_api extends PSX_Module_ViewAbstract
+class request_api extends ViewAbstract
 {
-	private $http;
-	private $oauth;
-	private $session;
-	private $validate;
-	private $post;
+	protected $http;
+	protected $oauth;
+	protected $session;
+	protected $validate;
+	protected $post;
 
 	public function onLoad()
 	{
-		$this->http     = new PSX_Http(new PSX_Http_Handler_Curl());
-		$this->oauth    = new PSX_Oauth($this->http);
+		$this->http     = new Http();
+		$this->oauth    = new Oauth($this->http);
 		$this->validate = $this->getValidator();
 		$this->post     = $this->getBody();
 
-		$this->session  = new PSX_Session('oc');
+		$this->session  = new Session('oc');
 		$this->session->start();
 
 		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
@@ -43,13 +41,13 @@ class request_api extends PSX_Module_ViewAbstract
 		$token          = $this->session->get('oc_token');
 		$tokenSecret    = $this->session->get('oc_token_secret');
 
-		$url    = $this->post->url('string', array(new PSX_Filter_Length(3, 256), new PSX_Filter_Url()));
-		$method = $this->post->method('string', array(new PSX_Filter_InArray(array('HMAC-SHA1', 'PLAINTEXT'))));
-		$body   = $this->post->body('string', array(new PSX_Filter_Length(0, 1024)));
+		$url    = $this->post->url('string', array(new Filter\Length(3, 256), new Filter\Url()));
+		$method = $this->post->method('string', array(new Filter\InArray(array('HMAC-SHA1', 'PLAINTEXT'))));
+		$body   = $this->post->body('string', array(new Filter\Length(0, 1024)));
 
 		if(!$this->validate->hasError())
 		{
-			$url    = new PSX_Url($url);
+			$url    = new Url($url);
 			$body   = trim($body);
 			$header = array(
 
@@ -59,11 +57,11 @@ class request_api extends PSX_Module_ViewAbstract
 
 			if(!empty($body))
 			{
-				$request = new PSX_Http_PostRequest($url, $header, $body);
+				$request = new PostRequest($url, $header, $body);
 			}
 			else
 			{
-				$request = new PSX_Http_GetRequest($url, $header);
+				$request = new GetRequest($url, $header);
 			}
 
 
@@ -78,6 +76,10 @@ class request_api extends PSX_Module_ViewAbstract
 		}
 	}
 
+	/**
+	 * @httpMethod GET
+	 * @path /logout
+	 */
 	public function logout()
 	{
 		$this->session->destroy();

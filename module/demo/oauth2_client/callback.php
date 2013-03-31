@@ -3,24 +3,24 @@
 namespace demo\oauth2_client;
 
 use Exception;
-use PSX_Http;
-use PSX_Module_ViewAbstract;
-use PSX_Oauth2_Authorization_AuthorizationCode;
-use PSX_Session;
-use PSX_Url;
+use PSX\Http;
+use PSX\Module\ViewAbstract;
+use PSX\Oauth2\AccessToken;
+use PSX\Oauth2\Authorization\AuthorizationCode;
+use PSX\Session;
+use PSX\Url;
 
-class callback extends PSX_Module_ViewAbstract
+class callback extends ViewAbstract
 {
-	private $http;
-	private $session;
-
-	private $validate;
-	private $post;
+	protected $http;
+	protected $session;
+	protected $validate;
+	protected $post;
 
 	public function onLoad()
 	{
-		$this->http     = new PSX_Http();
-		$this->session  = new PSX_Session('o2c');
+		$this->http     = new Http();
+		$this->session  = new Session('o2c');
 		$this->session->start();
 
 		$this->validate = $this->getValidator();
@@ -38,12 +38,12 @@ class callback extends PSX_Module_ViewAbstract
 			$clientSecret = $this->session->get('oc_client_secret');
 			$redirect     = $this->session->get('oc_redirect');
 
-			$code = new PSX_Oauth2_Authorization_AuthorizationCode($this->http, new PSX_Url($tokenUrl));
-			$code->setClientPassword($clientId, $clientSecret, PSX_Oauth2_Authorization_AuthorizationCode::AUTH_POST);
+			$code = new AuthorizationCode($this->http, new Url($tokenUrl));
+			$code->setClientPassword($clientId, $clientSecret, AuthorizationCode::AUTH_POST);
 
 			$accessToken = $code->getAccessToken($redirect);
 
-			$this->session->set('oc_access_token', $accessToken);
+			$this->session->set('oc_access_token', $accessToken->getFields());
 			$this->session->set('oc_authed', true);
 
 			$this->template->assign('access_token', $accessToken->getAccessToken());
@@ -55,7 +55,7 @@ class callback extends PSX_Module_ViewAbstract
 			$this->template->assign('request', $this->http->getRequest());
 			$this->template->assign('response', $this->http->getResponse());
 		}
-		catch(Exception $e)
+		catch(\Exception $e)
 		{
 			$this->template->assign('error', $e->getMessage());
 		}

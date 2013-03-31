@@ -1,6 +1,8 @@
 <?php
 
-class browse extends PSX_Module_ViewAbstract
+use PSX\Module\ViewAbstract;
+
+class browse extends ViewAbstract
 {
 	public function onLoad()
 	{

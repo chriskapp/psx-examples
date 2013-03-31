@@ -33,7 +33,7 @@ www.youtube.com as host.</p>
 
 		<hr />
 
-		<?php if($type instanceof PSX_Oembed_Type_Video): ?>
+		<?php if($type instanceof \PSX\Oembed\Type\Video): ?>
 
 			<h2><?php echo $type->title; ?></h2>
 

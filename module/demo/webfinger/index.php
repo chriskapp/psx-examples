@@ -2,16 +2,14 @@
 
 namespace demo\webfinger;
 
-use Exception;
-use PSX_Filter_Email;
-use PSX_Filter_Length;
-use PSX_Http;
-use PSX_Http_Handler_Curl;
-use PSX_Module_ViewAbstract;
-use PSX_Url;
-use PSX_Webfinger;
+use PSX\Exception;
+use PSX\Filter;
+use PSX\Http;
+use PSX\Module\ViewAbstract;
+use PSX\Url;
+use PSX\Webfinger;
 
-class index extends PSX_Module_ViewAbstract
+class index extends ViewAbstract
 {
 	public function onLoad()
 	{
@@ -20,9 +18,9 @@ class index extends PSX_Module_ViewAbstract
 
 	public function onPost()
 	{
-		$http      = new PSX_Http(new PSX_Http_Handler_Curl());
-		$webfinger = new PSX_Webfinger($http);
-		$email     = $this->getBody()->email('string', array(new PSX_Filter_Length(3, 64), new PSX_Filter_Email()));
+		$http      = new Http();
+		$webfinger = new Webfinger($http);
+		$email     = $this->getBody()->email('string', array(new Filter\Length(3, 64), new Filter\Email()));
 
 		if(!$this->getValidator()->hasError())
 		{
@@ -30,7 +28,7 @@ class index extends PSX_Module_ViewAbstract
 			{
 				list($user, $host) = explode('@', $email);
 
-				$url = new PSX_Url('http://' . $host);
+				$url = new Url('http://' . $host);
 				$tpl = $webfinger->getLrddTemplate($url);
 				$xrd = $webfinger->getLrdd('acct:' . $email, $tpl);
 
@@ -48,7 +46,7 @@ class index extends PSX_Module_ViewAbstract
 				$this->template->assign('discoverEmail', htmlspecialchars($email));
 				$this->template->assign('response', $response);
 			}
-			catch(Exception $e)
+			catch(\Exception $e)
 			{
 				$this->template->assign('error', array($e->getMessage()));
 			}

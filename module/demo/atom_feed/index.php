@@ -2,15 +2,15 @@
 
 namespace demo\atom_feed;
 
-use PSX_Atom;
-use PSX_Module_ViewAbstract;
+use PSX\Atom;
+use PSX\Module\ViewAbstract;
 
-class index extends PSX_Module_ViewAbstract
+class index extends ViewAbstract
 {
 	public function onLoad()
 	{
 		$url  = 'http://test.phpsx.org/index.php/atom/feed';
-		$atom = PSX_Atom::request($url);
+		$atom = Atom::request($url);
 
 		$this->template->assign('result', $atom);
 		$this->template->assign('feedUrl', $url);

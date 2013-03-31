@@ -1,5 +1,9 @@
 <?php
 
-class Example_Handler extends PSX_Data_HandlerAbstract
+namespace Example;
+
+use PSX\Data\HandlerAbstract;
+
+class Handler extends HandlerAbstract
 {
 }

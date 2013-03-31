@@ -2,24 +2,23 @@
 
 namespace demo\oauth_consumer;
 
-use PSX_Http;
-use PSX_Http_Handler_Curl;
-use PSX_Module_ViewAbstract;
-use PSX_Oauth;
-use PSX_Session;
+use PSX\Http;
+use PSX\Module\ViewAbstract;
+use PSX\Oauth;
+use PSX\Session;
 
-class user_authentication extends PSX_Module_ViewAbstract
+class user_authentication extends ViewAbstract
 {
-	private $http;
-	private $oauth;
-	private $session;
+	protected $http;
+	protected $oauth;
+	protected $session;
 
 	public function onLoad()
 	{
-		$this->http     = new PSX_Http(new PSX_Http_Handler_Curl());
-		$this->oauth    = new PSX_Oauth($this->http);
+		$this->http     = new Http();
+		$this->oauth    = new Oauth($this->http);
 
-		$this->session  = new PSX_Session('oc');
+		$this->session  = new Session('oc');
 		$this->session->start();
 
 		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');

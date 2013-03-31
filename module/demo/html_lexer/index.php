@@ -2,14 +2,13 @@
 
 namespace demo\html_lexer;
 
-use PSX_Filter_Length;
-use PSX_Filter_Url;
-use PSX_Html_Lexer;
-use PSX_Http;
-use PSX_Http_GetRequest;
-use PSX_Module_ViewAbstract;
+use PSX\Filter;
+use PSX\Html\Lexer;
+use PSX\Http;
+use PSX\Http\GetRequest;
+use PSX\Module\ViewAbstract;
 
-class index extends PSX_Module_ViewAbstract
+class index extends ViewAbstract
 {
 	public function onLoad()
 	{
@@ -18,16 +17,16 @@ class index extends PSX_Module_ViewAbstract
 
 	public function onPost()
 	{
-		$src = $this->getBody()->src('string', array(new PSX_Filter_Length(6, 256), new PSX_Filter_Url()));
+		$src = $this->getBody()->src('string', array(new Filter\Length(6, 256), new Filter\Url()));
 
 		if(!$this->getValidator()->hasError())
 		{
-			$http     = new PSX_Http();
-			$request  = new PSX_Http_GetRequest($src);
+			$http     = new Http();
+			$request  = new GetRequest($src);
 			$request->setFollowLocation(true);
 			$response = $http->request($request);
 
-			$root     = PSX_Html_Lexer::parse($response->getBody());
+			$root     = Lexer::parse($response->getBody());
 			$elements = $root->getElementsByTagName('a');
 			$links    = array();
 

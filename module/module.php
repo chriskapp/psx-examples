@@ -1,6 +1,8 @@
 <?php
 
-class module extends PSX_Module_ViewAbstract
+use PSX\Module\ViewAbstract;
+
+class module extends ViewAbstract
 {
 	public function onLoad()
 	{

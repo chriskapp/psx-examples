@@ -4,10 +4,10 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="content-style-type" content="text/css" />
 	<meta name="generator" content="psx" />
-	<link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext-4.1.0-gpl/resources/css/ext-all.css">
+	<link rel="stylesheet" type="text/css" href="http://cdn.sencha.io/ext-4.2.0-gpl/resources/css/ext-all.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo $base ?>/css/browse.css" />
 	<link rel="icon" href="<?php echo $base ?>/img/favicon.ico" type="image/x-icon" />
-	<script type="text/javascript" src="http://cdn.sencha.io/ext-4.1.0-gpl/ext-all.js"></script>
+	<script type="text/javascript" src="http://cdn.sencha.io/ext-4.2.0-gpl/ext-all.js"></script>
 	<script type="text/javascript">
 	Ext.ns('PSX');
 	PSX.url = '<?php echo $url; ?>';
@@ -24,7 +24,7 @@
 				margins: '5 5 5 0',
 				bodyPadding: 8,
 				border: true,
-				html: '<iframe src="' + PSX.url + '/demo" width="100%" height="100%" frameBorder="0"></iframe>'
+				html: '<iframe id="content-iframe" src="' + PSX.url + '/demo" width="100%" height="100%" frameBorder="0"></iframe>'
 			};
 			Ext.apply(me, config);
 
@@ -32,7 +32,7 @@
 		},
 
 		loadContent: function(url){
-			this.body.update('<iframe src="' + url + '" width="100%" height="100%" frameBorder="0"></iframe>');
+			Ext.get('content-iframe').set({'src': url});
 		}
 
 	});

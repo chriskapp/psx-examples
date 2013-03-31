@@ -2,32 +2,28 @@
 
 namespace demo\oauth_consumer;
 
-use PSX_Filter_InArray;
-use PSX_Filter_Length;
-use PSX_Filter_Url;
-use PSX_Http;
-use PSX_Http_Handler_Curl;
-use PSX_Module_ViewAbstract;
-use PSX_Oauth;
-use PSX_Session;
-use PSX_Url;
+use PSX\Filter;
+use PSX\Http;
+use PSX\Module\ViewAbstract;
+use PSX\Oauth;
+use PSX\Session;
+use PSX\Url;
 
-class index extends PSX_Module_ViewAbstract
+class index extends ViewAbstract
 {
-	private $http;
-	private $oauth;
-	private $session;
-	private $validate;
-	private $post;
+	protected $http;
+	protected $oauth;
+	protected $session;
+	protected $post;
 
 	public function onLoad()
 	{
-		$this->http     = new PSX_Http(new PSX_Http_Handler_Curl());
-		$this->oauth    = new PSX_Oauth($this->http);
+		$this->http     = new Http();
+		$this->oauth    = new Oauth($this->http);
 		$this->validate = $this->getValidator();
 		$this->post     = $this->getBody();
 
-		$this->session  = new PSX_Session('oc');
+		$this->session  = new Session('oc');
 		$this->session->start();
 
 		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
@@ -54,18 +50,18 @@ class index extends PSX_Module_ViewAbstract
 
 	public function onPost()
 	{
-		$url            = $this->post->url('string', array(new PSX_Filter_Length(3, 256), new PSX_Filter_Url()));
-		$consumerKey    = $this->post->consumer_key('string', array(new PSX_Filter_Length(4, 128)));
-		$consumerSecret = $this->post->consumer_secret('string', array(new PSX_Filter_Length(4, 128)));
-		$method         = $this->post->method('string', array(new PSX_Filter_InArray(array('HMAC-SHA1', 'PLAINTEXT'))));
-		$callback       = $this->post->callback('string', array(new PSX_Filter_Length(3, 256), new PSX_Filter_Url()));
+		$url            = $this->post->url('string', array(new Filter\Length(3, 256), new Filter\Url()));
+		$consumerKey    = $this->post->consumer_key('string', array(new Filter\Length(4, 128)));
+		$consumerSecret = $this->post->consumer_secret('string', array(new Filter\Length(4, 128)));
+		$method         = $this->post->method('string', array(new Filter\InArray(array('HMAC-SHA1', 'PLAINTEXT'))));
+		$callback       = $this->post->callback('string', array(new Filter\Length(3, 256), new Filter\Url()));
 
 		if(!$this->validate->hasError())
 		{
 			$this->session->set('oc_consumer_key', $consumerKey);
 			$this->session->set('oc_consumer_secret', $consumerSecret);
 
-			$url = new PSX_Url($url);
+			$url = new Url($url);
 
 			$response = $this->oauth->requestToken($url, $consumerKey, $consumerSecret, $method, $callback);
 

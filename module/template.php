@@ -1,6 +1,8 @@
 <?php
 
-class template extends PSX_Module_ViewAbstract
+use PSX\Module\ViewAbstract;
+
+class template extends ViewAbstract
 {
 	public function onLoad()
 	{

@@ -1,6 +1,17 @@
 <?php
 
-class Example_Record extends PSX_Data_Record_TableAbstract
+namespace Example;
+
+use PSX\Config;
+use PSX\DateTime;
+use PSX\Exception;
+use PSX\Data\Record\TableAbstract;
+use PSX\Data\WriterInterface;
+use PSX\Data\WriterResult;
+use PSX\Sql\TableInterface;
+use PSX\Urn;
+
+class Record extends TableAbstract
 {
 	public $id;
 	public $place;
@@ -12,7 +23,7 @@ class Example_Record extends PSX_Data_Record_TableAbstract
 
 	protected $_config;
 
-	public function __construct(PSX_Sql_TableInterface $table, PSX_Config $config)
+	public function __construct(TableInterface $table, Config $config)
 	{
 		parent::__construct($table);
 		
@@ -59,18 +70,18 @@ class Example_Record extends PSX_Data_Record_TableAbstract
 		return new DateTime($this->datetime);
 	}
 
-	public function export(PSX_Data_WriterResult $result)
+	public function export(WriterResult $result)
 	{
 		switch($result->getType())
 		{
-			case PSX_Data_WriterInterface::JSON:
-			case PSX_Data_WriterInterface::XML:
+			case WriterInterface::JSON:
+			case WriterInterface::XML:
 
 				return $this->getFields();
 
 				break;
 
-			case PSX_Data_WriterInterface::RSS:
+			case WriterInterface::RSS:
 
 				$title       = $this->region;
 				$link        = $this->_config['psx_url'] . '/index.php/demo/api/id/' . $this->id;
@@ -87,7 +98,7 @@ class Example_Record extends PSX_Data_Record_TableAbstract
 
 				break;
 
-			case PSX_Data_WriterInterface::ATOM:
+			case WriterInterface::ATOM:
 
 				$title = $this->region;
 				$id    = $this->id;
@@ -98,7 +109,7 @@ class Example_Record extends PSX_Data_Record_TableAbstract
 				$entry->setTitle($title);
 				$entry->setId($id);
 				$entry->setUpdated($date);
-				$entry->addAuthor('Foobar', $this->_config->getUrn('user', '1'));
+				$entry->addAuthor('Foobar', Urn::buildUrn(array('user', '1')));
 				$entry->addLink($this->_config['psx_url'] . '/index.php/demo/api/id/' . $this->id, 'alternate', 'text/html');
 				$entry->setContent(sprintf('Population: %s, Users: %s', $this->population, $this->users), 'text');
 
@@ -108,7 +119,7 @@ class Example_Record extends PSX_Data_Record_TableAbstract
 
 			default:
 
-				throw new PSX_Data_Exception('Writer is not supported');
+				throw new Exception('Writer is not supported');
 
 				break;
 		}

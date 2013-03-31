@@ -2,15 +2,13 @@
 
 namespace demo\yadis_discovery;
 
-use PSX_Filter_Length;
-use PSX_Filter_Url;
-use PSX_Http;
-use PSX_Http_Handler_Curl;
-use PSX_Module_ViewAbstract;
-use PSX_Url;
-use PSX_Yadis;
+use PSX\Filter;
+use PSX\Http;
+use PSX\Module\ViewAbstract;
+use PSX\Url;
+use PSX\Yadis;
 
-class index extends PSX_Module_ViewAbstract
+class index extends ViewAbstract
 {
 	public function onLoad()
 	{
@@ -19,13 +17,13 @@ class index extends PSX_Module_ViewAbstract
 
 	public function onPost()
 	{
-		$http  = new PSX_Http(new PSX_Http_Handler_Curl());
-		$yadis = new PSX_Yadis($http);
-		$url   = $this->getBody()->url('string', array(new PSX_Filter_Length(3, 256), new PSX_Filter_Url()));
+		$http  = new Http();
+		$yadis = new Yadis($http);
+		$url   = $this->getBody()->url('string', array(new Filter\Length(3, 256), new Filter\Url()));
 
 		if(!$this->getValidator()->hasError())
 		{
-			$response = $yadis->discover(new PSX_Url($url), true);
+			$response = $yadis->discover(new Url($url), true);
 
 			if(!empty($response))
 			{

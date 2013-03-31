@@ -2,29 +2,29 @@
 
 namespace demo\oauth_consumer;
 
-use PSX_Filter_Length;
-use PSX_Http;
-use PSX_Http_Handler_Curl;
-use PSX_Module_ViewAbstract;
-use PSX_Oauth;
-use PSX_Session;
+use PSX\Filter;
+use PSX\Http;
+use PSX\Http\Handler\Curl;
+use PSX\Module\ViewAbstract;
+use PSX\Oauth;
+use PSX\Session;
 
-class callback extends PSX_Module_ViewAbstract
+class callback extends ViewAbstract
 {
-	private $http;
-	private $oauth;
-	private $session;
-	private $validate;
-	private $get;
+	protected $http;
+	protected $oauth;
+	protected $session;
+	protected $validate;
+	protected $get;
 
 	public function onLoad()
 	{
-		$this->http     = new PSX_Http(new PSX_Http_Handler_Curl());
-		$this->oauth    = new PSX_Oauth($this->http);
+		$this->http     = new Http();
+		$this->oauth    = new Oauth($this->http);
 		$this->validate = $this->getValidator();
 		$this->get      = $this->getParameter();
 
-		$this->session  = new PSX_Session('oc');
+		$this->session  = new Session('oc');
 		$this->session->start();
 
 		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
@@ -32,8 +32,8 @@ class callback extends PSX_Module_ViewAbstract
 
 	public function onGet()
 	{
-		$token    = $this->get->oauth_token('string', array(new PSX_Filter_Length(4, 64)));
-		$verifier = $this->get->oauth_verifier('string', array(new PSX_Filter_Length(4, 64)));
+		$token    = $this->get->oauth_token('string', array(new Filter\Length(4, 64)));
+		$verifier = $this->get->oauth_verifier('string', array(new Filter\Length(4, 64)));
 
 		if($token === false || $this->session->get('oc_token') != $token)
 		{

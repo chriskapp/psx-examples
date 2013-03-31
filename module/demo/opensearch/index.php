@@ -2,9 +2,9 @@
 
 namespace demo\opensearch;
 
-use PSX_Opensearch_ProviderAbstract;
+use PSX\Opensearch\ProviderAbstract;
 
-class index extends PSX_Opensearch_ProviderAbstract
+class index extends ProviderAbstract
 {
 	public function onLoad()
 	{

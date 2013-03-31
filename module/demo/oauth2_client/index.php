@@ -2,26 +2,24 @@
 
 namespace demo\oauth2_client;
 
-use PSX_Filter_Length;
-use PSX_Filter_Url;
-use PSX_Http;
-use PSX_Module_ViewAbstract;
-use PSX_Oauth2_Authorization_AuthorizationCode;
-use PSX_Session;
-use PSX_Url;
+use PSX\Filter;
+use PSX\Http;
+use PSX\Module\ViewAbstract;
+use PSX\Oauth2\Authorization\AuthorizationCode;
+use PSX\Session;
+use PSX\Url;
 
-class index extends PSX_Module_ViewAbstract
+class index extends ViewAbstract
 {
-	private $http;
-	private $session;
-
-	private $validate;
-	private $post;
+	protected $http;
+	protected $session;
+	protected $validate;
+	protected $post;
 
 	public function onLoad()
 	{
-		$this->http     = new PSX_Http();
-		$this->session  = new PSX_Session('o2c');
+		$this->http     = new Http();
+		$this->session  = new Session('o2c');
 		$this->session->start();
 
 		$this->validate = $this->getValidator();
@@ -46,12 +44,12 @@ class index extends PSX_Module_ViewAbstract
 
 	public function onPost()
 	{
-		$authUrl      = $this->post->auth_url('string', array(new PSX_Filter_Length(3, 256), new PSX_Filter_Url()));
-		$tokenUrl     = $this->post->token_url('string', array(new PSX_Filter_Length(3, 256), new PSX_Filter_Url()));
-		$clientId     = $this->post->consumer_key('string', array(new PSX_Filter_Length(4, 128)));
-		$clientSecret = $this->post->consumer_secret('string', array(new PSX_Filter_Length(4, 128)));
-		$scope        = $this->post->scope('string', array(new PSX_Filter_Length(0, 256)));
-		$redirect     = $this->post->redirect('string', array(new PSX_Filter_Length(3, 256), new PSX_Filter_Url()));
+		$authUrl      = $this->post->auth_url('string', array(new Filter\Length(3, 256), new Filter\Url()));
+		$tokenUrl     = $this->post->token_url('string', array(new Filter\Length(3, 256), new Filter\Url()));
+		$clientId     = $this->post->consumer_key('string', array(new Filter\Length(4, 128)));
+		$clientSecret = $this->post->consumer_secret('string', array(new Filter\Length(4, 128)));
+		$scope        = $this->post->scope('string', array(new Filter\Length(0, 256)));
+		$redirect     = $this->post->redirect('string', array(new Filter\Length(3, 256), new Filter\Url()));
 
 		if(!$this->validate->hasError())
 		{
@@ -61,14 +59,14 @@ class index extends PSX_Module_ViewAbstract
 			$this->session->set('oc_scope', $scope);
 			$this->session->set('oc_redirect', $redirect);
 
-			$authUrl = new PSX_Url($authUrl);
+			$authUrl = new Url($authUrl);
 
 			if(empty($scope))
 			{
 				$scope = null;
 			}
 
-			PSX_Oauth2_Authorization_AuthorizationCode::redirect($authUrl, $clientId, $redirect, $scope);
+			AuthorizationCode::redirect($authUrl, $clientId, $redirect, $scope);
 		}
 		else
 		{

@@ -2,19 +2,18 @@
 
 namespace demo\http_request;
 
-use PSX_Http;
-use PSX_Http_GetRequest;
-use PSX_Http_Handler_Curl;
-use PSX_ModuleAbstract;
-use PSX_Url;
+use PSX\Http;
+use PSX\Http\GetRequest;
+use PSX\ModuleAbstract;
+use PSX\Url;
 
-class index extends PSX_ModuleAbstract
+class index extends ModuleAbstract
 {
 	public function onLoad()
 	{
-		$http    = new PSX_Http(new PSX_Http_Handler_Curl());
-		$url     = new PSX_Url('http://ip.k42b3.com/');
-		$request = new PSX_Http_GetRequest($url);
+		$http    = new Http();
+		$url     = new Url('http://ip.k42b3.com/');
+		$request = new GetRequest($url);
 
 		$response = $http->request($request);
 

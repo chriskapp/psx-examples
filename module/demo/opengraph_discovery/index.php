@@ -2,15 +2,13 @@
 
 namespace demo\opengraph_discovery;
 
-use PSX_Filter_Length;
-use PSX_Filter_Url;
-use PSX_Http;
-use PSX_Http_Handler_Curl;
-use PSX_Module_ViewAbstract;
-use PSX_Opengraph;
-use PSX_Url;
+use PSX\Filter;
+use PSX\Http;
+use PSX\Module\ViewAbstract;
+use PSX\Opengraph;
+use PSX\Url;
 
-class index extends PSX_Module_ViewAbstract
+class index extends ViewAbstract
 {
 	public function onLoad()
 	{
@@ -19,13 +17,13 @@ class index extends PSX_Module_ViewAbstract
 
 	public function onPost()
 	{
-		$http = new PSX_Http(new PSX_Http_Handler_Curl());
-		$og   = new PSX_Opengraph($http);
-		$url  = $this->getBody()->url('string', array(new PSX_Filter_Length(3, 256), new PSX_Filter_Url()));
+		$http = new Http();
+		$og   = new Opengraph($http);
+		$url  = $this->getBody()->url('string', array(new Filter\Length(3, 256), new Filter\Url()));
 
 		if(!$this->getValidator()->hasError())
 		{
-			$response = $og->discover(new PSX_Url($url));
+			$response = $og->discover(new Url($url));
 
 			if(!empty($response))
 			{

@@ -2,9 +2,9 @@
 
 namespace demo\hello_world;
 
-use PSX_ModuleAbstract;
+use PSX\ModuleAbstract;
 
-class index extends PSX_ModuleAbstract
+class index extends ModuleAbstract
 {
 	public function onLoad()
 	{

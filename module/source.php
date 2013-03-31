@@ -1,6 +1,10 @@
 <?php
 
-class source extends PSX_ModuleAbstract
+use PSX\ModuleAbstract;
+use PSX\Cache;
+use PSX\Util\Uuid;
+
+class source extends ModuleAbstract
 {
 	const CACHE_EXPIRE = 604800; // ca 1 week
 	const CACHE_UUID_MAP_EXPIRE = 2419200; // ca 1 month
@@ -12,7 +16,7 @@ class source extends PSX_ModuleAbstract
 	public function library()
 	{
 		$uuid  = $this->getUriFragments('uuid');
-		$cache = new PSX_Cache('library-' . $uuid, self::CACHE_EXPIRE);
+		$cache = new Cache('library-' . $uuid, self::CACHE_EXPIRE);
 
 		if(($content = $cache->load()) === false)
 		{
@@ -41,7 +45,7 @@ class source extends PSX_ModuleAbstract
 	public function module()
 	{
 		$uuid  = $this->getUriFragments('uuid');
-		$cache = new PSX_Cache('module-' . $uuid, self::CACHE_EXPIRE);
+		$cache = new Cache('module-' . $uuid, self::CACHE_EXPIRE);
 
 		if(($content = $cache->load()) === false)
 		{
@@ -70,7 +74,7 @@ class source extends PSX_ModuleAbstract
 	public function template()
 	{
 		$uuid  = $this->getUriFragments('uuid');
-		$cache = new PSX_Cache('template-' . $uuid, self::CACHE_EXPIRE);
+		$cache = new Cache('template-' . $uuid, self::CACHE_EXPIRE);
 
 		if(($content = $cache->load()) === false)
 		{
@@ -94,7 +98,7 @@ class source extends PSX_ModuleAbstract
 
 	private function loadContent($uuidMapPath, $uuid)
 	{
-		$cache = new PSX_Cache($uuidMapPath . '-uuid-map', self::CACHE_UUID_MAP_EXPIRE);
+		$cache = new Cache($uuidMapPath . '-uuid-map', self::CACHE_UUID_MAP_EXPIRE);
 		$data  = $cache->load();
 
 		if($data === false)
@@ -139,7 +143,7 @@ class source extends PSX_ModuleAbstract
 
 				if(is_file($item))
 				{
-					$map[PSX_Util_Uuid::nameBased($item)] = $item;
+					$map[Uuid::nameBased($item)] = $item;
 				}
 			}
 		}
@@ -158,7 +162,7 @@ class source extends PSX_ModuleAbstract
 
 		if(is_file($file) && class_exists($matches[0]))
 		{
-			$uuid = PSX_Util_Uuid::nameBased($file);
+			$uuid = Uuid::nameBased($file);
 			$url  = $this->config['psx_url'] . '/' . $this->config['psx_dispatch'] . 'source/library/' . $uuid;
 
 			return '<a href="' . $url . '">' . $matches[0] . '</a>';
