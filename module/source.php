@@ -153,7 +153,8 @@ class source extends ModuleAbstract
 
 	private function classParser($content)
 	{
-		return preg_replace_callback('/([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]{6,40})/ims', array($this, 'classParserCallback'), $content);
+		return $content;
+		//return preg_replace_callback('/([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]{6,40})/ims', array($this, 'classParserCallback'), $content);
 	}
 
 	private function classParserCallback($matches)
