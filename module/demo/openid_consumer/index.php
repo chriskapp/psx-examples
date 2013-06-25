@@ -19,24 +19,22 @@ class index extends ViewAbstract
 
 	public function onLoad()
 	{
-		$this->http     = new Http();
-		$this->openid   = new OpenId($this->http, $this->config['psx_url']);
-		$this->validate = $this->getValidator();
-		$this->post     = $this->getBody();
+		$this->getContainer()->setParameter('session.name', 'oi');
 
-		$this->session  = new Session('oi');
-		$this->session->start();
+		$this->http     = $this->getHttp();
+		$this->openid   = new OpenId($this->http, $this->config['psx_url']);
+		$this->validate = $this->getValidate();
+		$this->post     = $this->getBody();
+		$this->session  = $this->getSession();
 
 		if($this->session->get('oi_authed') == true)
 		{
-			$this->template->assign('id', $this->session->get('oi_id'));
-			$this->template->assign('name', $this->session->get('oi_name'));
-			$this->template->assign('email', $this->session->get('oi_email'));
+			$this->getTemplate()->assign('id', $this->session->get('oi_id'));
+			$this->getTemplate()->assign('name', $this->session->get('oi_name'));
+			$this->getTemplate()->assign('email', $this->session->get('oi_email'));
 		}
 
-		$this->template->assign('authed', $this->session->get('oi_authed'));
-
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
+		$this->getTemplate()->assign('authed', $this->session->get('oi_authed'));
 	}
 
 	public function onPost()
@@ -70,7 +68,7 @@ class index extends ViewAbstract
 		}
 		else
 		{
-			$this->template->assign('error', $this->validate->getError());
+			$this->getTemplate()->assign('error', $this->validate->getError());
 		}
 	}
 

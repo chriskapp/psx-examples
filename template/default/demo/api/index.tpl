@@ -65,7 +65,14 @@
 				editable: false,
 				width: 100,
 				value: 'xml'
-			}),'Start',{
+			}),'Fields',{
+				id: 'fields',
+				xtype: 'textfield',
+				name: 'fields',
+				emptyText: '',
+				width: 60,
+				value: ''
+			},'Start',{
 				id: 'startIndex',
 				xtype: 'textfield',
 				name: 'startIndex',
@@ -140,6 +147,10 @@
 
 					if (Ext.isString(Ext.getCmp('format').getValue())) {
 						url+= 'format=' + Ext.getCmp('format').getValue() + '&';
+					}
+
+					if (Ext.isString(Ext.getCmp('fields').getValue())) {
+						url+= 'fields=' + Ext.getCmp('fields').getValue() + '&';
 					}
 
 					if (Ext.isString(Ext.getCmp('startIndex').getValue())) {

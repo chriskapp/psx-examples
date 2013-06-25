@@ -19,15 +19,13 @@ class callback extends ViewAbstract
 
 	public function onLoad()
 	{
-		$this->http     = new Http();
+		$this->getContainer()->setParameter('session.name', 'oc');
+
+		$this->http     = $this->getHttp();
 		$this->oauth    = new Oauth($this->http);
-		$this->validate = $this->getValidator();
+		$this->validate = $this->getValidate();
 		$this->get      = $this->getParameter();
-
-		$this->session  = new Session('oc');
-		$this->session->start();
-
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
+		$this->session  = $this->getSession();
 	}
 
 	public function onGet()
@@ -44,19 +42,19 @@ class callback extends ViewAbstract
 		{
 			$this->session->set('oc_verifier', $verifier);
 
-			$this->template->assign('token', $token);
-			$this->template->assign('verifier', $verifier);
+			$this->getTemplate()->assign('token', $token);
+			$this->getTemplate()->assign('verifier', $verifier);
 		}
 		else
 		{
-			$this->template->assign('error', $this->validate->getError());
+			$this->getTemplate()->assign('error', $this->validate->getError());
 		}
 
-		$this->template->assign('ui_status', 0x0);
+		$this->getTemplate()->assign('ui_status', 0x0);
 	}
 
 	public function onPost()
 	{
-		$this->template->assign('ui_status', 0x1);
+		$this->getTemplate()->assign('ui_status', 0x1);
 	}
 }

@@ -12,8 +12,7 @@ class index extends ViewAbstract
 		$url  = 'http://test.phpsx.org/index.php/atom/feed';
 		$atom = Atom::request($url);
 
-		$this->template->assign('result', $atom);
-		$this->template->assign('feedUrl', $url);
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
+		$this->getTemplate()->assign('result', $atom);
+		$this->getTemplate()->assign('feedUrl', $url);
 	}
 }

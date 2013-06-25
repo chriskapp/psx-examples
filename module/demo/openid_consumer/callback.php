@@ -18,11 +18,11 @@ class callback extends ViewAbstract
 
 	public function onLoad()
 	{
-		$this->http     = new Http();
-		$this->openid   = new OpenId($this->http, $this->config['psx_url']);
+		$this->getContainer()->setParameter('session.name', 'oi');
 
-		$this->session  = new Session('oi');
-		$this->session->start();
+		$this->http     = $this->getHttp();
+		$this->openid   = new OpenId($this->http, $this->config['psx_url']);
+		$this->session  = $this->getSession();
 	}
 
 	public function onGet()
@@ -98,13 +98,13 @@ class callback extends ViewAbstract
 				}
 				else
 				{
-					throw new OpenId_Exception('Couldnt get identity');
+					throw new Exception('Couldnt get identity');
 				}
 			}
 		}
 		catch(\Exception $e)
 		{
-			$this->template->assign('error', $e->getMessage() . '<br />' . $e->getTraceAsString());
+			$this->getTemplate()->assign('error', $e->getMessage() . '<br />' . $e->getTraceAsString());
 		}
 	}
 }

@@ -23,82 +23,86 @@ use PSX\Urn;
  */
 class example extends ApiAbstract
 {
-	private $sql;
-	private $table;
+	protected $handler;
 
 	public function onLoad()
 	{
-		// create sql connection
-		$this->sql = new Sql($this->config['psx_sql_host'],
-			$this->config['psx_sql_user'],
-			$this->config['psx_sql_pw'],
-			$this->config['psx_sql_db']);
-
-		// get table
-		$this->table = new Table($this->sql);
+		// get handler
+		$this->handler = new Handler(new Table($this->getSql()));
 	}
 
-	public function onGet()
-	{
-		// get default params
-		$params = $this->getRequestParams();
-
-		// selected fields
-		$availableFields = $this->table->getColumns();
-		$selectedFields  = array();
-
-		if(isset($params['fields']))
-		{
-			foreach($params['fields'] as $field)
-			{
-				if(isset($availableFields[$field]))
-				{
-					$selectedFields[] = $field;
-				}
-			}
-		}
-
-		if(empty($selectedFields))
-		{
-			$selectedFields = array_keys($availableFields);
-		}
-
-		// get resultset
-		$resultSet = $this->table->select($selectedFields)
-			->getResultSet($params['startIndex'],
-				$params['count'],
-				$params['sortBy'],
-				$params['sortOrder'],
-				$params['filterBy'],
-				$params['filterOp'],
-				$params['filterValue'],
-				$params['updatedSince'],
-				Sql::FETCH_OBJECT,
-				'\Example\Record',
-				array($this->table, $this->config)
-			);
-
-		// set response
-		$this->setResponse($resultSet);
-	}
-
-	public function onPost()
+	/**
+	 * @httpMethod GET
+	 * @path /
+	 */
+	public function getNews()
 	{
 		try
 		{
-			$record = $this->table->getRecord();
-			$record->import($this->getRequest());
+			$params    = $this->getRequestParams();
+			$fields    = (array) $params['fields'];
+			$resultSet = $this->handler->getResultSet($fields, 
+				$params['startIndex'], 
+				$params['count'], 
+				$params['sortBy'], 
+				$params['sortOrder'], 
+				$this->getRequestCondition(),
+				$this->getMode());
 
-			$handler = new Handler($this->table);
-
-			// Because of security reasons we cant insert here an actual record
-			//$handler->insert($record);
-
-			$this->setResponse(new Message('You have successful inserted a new record', true));
+			$this->setResponse($resultSet);
 		}
 		catch(\Exception $e)
 		{
-			$this->setResponse(new Message($e->getMessage(), false));
+			$msg = new Message($e->getMessage(), false);
+
+			$this->setResponse($msg);
+		}
+	}
+
+	/**
+	 * @httpMethod GET
+	 * @path /@supportedFields
+	 */
+	public function getSupportedFields()
+	{
+		try
+		{
+			$array = new ArrayList($this->handler->getSupportedFields());
+
+			$this->setResponse($array);
+		}
+		catch(\Exception $e)
+		{
+			$msg = new Message($e->getMessage(), false);
+
+			$this->setResponse($msg);
+		}
+	}
+
+	/**
+	 * @httpMethod POST
+	 * @path /
+	 */
+	public function insertNews()
+	{
+		try
+		{
+			$record = $this->handler->getRecord();
+			$record->import($this->getRequest());
+
+			// insert
+			$this->handler->create($record);
+
+
+			$msg = new Message('You have successful create a ' . $record->getName(), true);
+
+			$this->setResponse($msg);
+		}
+		catch(\Exception $e)
+		{
+			$msg = new Message($e->getMessage(), false);
+
+			$this->setResponse($msg);
 		}
 	}
 
@@ -107,8 +111,7 @@ class example extends ApiAbstract
 		switch($writer->getType())
 		{
 			case WriterInterface::RSS:
-
-				$updated = $this->sql->getField('SELECT `datetime` FROM ' . $this->config['tbl_example'] . ' ORDER BY `datetime` DESC');
+				$updated = $this->getSql()->getField('SELECT `datetime` FROM ' . $this->config['tbl_example'] . ' ORDER BY `datetime` DESC');
 
 				$title       = 'Internet Population';
 				$link        = $this->config['psx_url'];
@@ -117,12 +120,10 @@ class example extends ApiAbstract
 				$writer = $writer->getWriter();
 				$writer->setConfig($title, $link, $description);
 				$writer->setGenerator('psx ' . Base::getVersion());
-
 				break;
 
 			case WriterInterface::ATOM:
-
-				$updated = $this->sql->getField('SELECT `datetime` FROM ' . $this->config['tbl_example'] . ' ORDER BY `datetime` DESC');
+				$updated = $this->getSql()->getField('SELECT `datetime` FROM ' . $this->config['tbl_example'] . ' ORDER BY `datetime` DESC');
 
 				$title   = 'Internet Population';
 				$id      = Urn::buildUrn(array('psx', 'atom', 'example'));
@@ -131,7 +132,6 @@ class example extends ApiAbstract
 				$writer = $writer->getWriter();
 				$writer->setConfig($title, $id, $updated);
 				$writer->setGenerator('psx ' . Base::getVersion());
-
 				break;
 		}
 	}

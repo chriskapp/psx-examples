@@ -12,16 +12,15 @@ class index extends ViewAbstract
 {
 	public function onLoad()
 	{
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function onPost()
 	{
-		$http  = new Http();
+		$http  = $this->getHttp();
 		$yadis = new Yadis($http);
 		$url   = $this->getBody()->url('string', array(new Filter\Length(3, 256), new Filter\Url()));
 
-		if(!$this->getValidator()->hasError())
+		if(!$this->getValidate()->hasError())
 		{
 			$response = $yadis->discover(new Url($url), true);
 
@@ -34,12 +33,12 @@ class index extends ViewAbstract
 				$response = false;
 			}
 
-			$this->template->assign('discoverUrl', htmlspecialchars($url));
-			$this->template->assign('response', $response);
+			$this->getTemplate()->assign('discoverUrl', htmlspecialchars($url));
+			$this->getTemplate()->assign('response', $response);
 		}
 		else
 		{
-			$this->template->assign('error', $this->getValidator()->getError());
+			$this->getTemplate()->assign('error', $this->getValidate()->getError());
 		}
 	}
 }

@@ -22,16 +22,15 @@ class request_api extends ViewAbstract
 
 	public function onLoad()
 	{
-		$this->http     = new Http();
+		$this->getContainer()->setParameter('session.name', 'oc');
+
+		$this->http     = $this->getHttp();
 		$this->oauth    = new Oauth($this->http);
-		$this->validate = $this->getValidator();
+		$this->validate = $this->getValidate();
 		$this->post     = $this->getBody();
+		$this->session  = $this->getSession();
 
-		$this->session  = new Session('oc');
-		$this->session->start();
-
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
-		$this->template->assign('ui_status', 0x0);
+		$this->getTemplate()->assign('ui_status', 0x0);
 	}
 
 	public function onPost()
@@ -67,12 +66,12 @@ class request_api extends ViewAbstract
 
 			$response = $this->http->request($request);
 
-			$this->template->assign('request', htmlspecialchars($this->http->getRequest(), ENT_COMPAT, 'UTF-8'));
-			$this->template->assign('response', htmlspecialchars($this->http->getResponse(), ENT_COMPAT, 'UTF-8'));
+			$this->getTemplate()->assign('request', htmlspecialchars($this->http->getRequest(), ENT_COMPAT, 'UTF-8'));
+			$this->getTemplate()->assign('response', htmlspecialchars($this->http->getResponse(), ENT_COMPAT, 'UTF-8'));
 		}
 		else
 		{
-			$this->template->assign('error', $this->validate->getError());
+			$this->getTemplate()->assign('error', $this->validate->getError());
 		}
 	}
 

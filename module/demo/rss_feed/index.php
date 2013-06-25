@@ -12,8 +12,7 @@ class index extends ViewAbstract
 		$url = 'http://test.phpsx.org/index.php/rss/feed';
 		$rss = Rss::request($url);
 
-		$this->template->assign('result', $rss);
-		$this->template->assign('feedUrl', $url);
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
+		$this->getTemplate()->assign('result', $rss);
+		$this->getTemplate()->assign('feedUrl', $url);
 	}
 }

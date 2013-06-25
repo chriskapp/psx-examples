@@ -6,6 +6,6 @@ class browse extends ViewAbstract
 {
 	public function onLoad()
 	{
-		$this->template->set('browse.tpl');
+		$this->getTemplate()->set('browse.tpl');
 	}
 }

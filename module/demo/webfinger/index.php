@@ -13,16 +13,15 @@ class index extends ViewAbstract
 {
 	public function onLoad()
 	{
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function onPost()
 	{
-		$http      = new Http();
+		$http      = $this->getHttp();
 		$webfinger = new Webfinger($http);
 		$email     = $this->getBody()->email('string', array(new Filter\Length(3, 64), new Filter\Email()));
 
-		if(!$this->getValidator()->hasError())
+		if(!$this->getValidate()->hasError())
 		{
 			try
 			{
@@ -43,17 +42,17 @@ class index extends ViewAbstract
 					$response = false;
 				}
 
-				$this->template->assign('discoverEmail', htmlspecialchars($email));
-				$this->template->assign('response', $response);
+				$this->getTemplate()->assign('discoverEmail', htmlspecialchars($email));
+				$this->getTemplate()->assign('response', $response);
 			}
 			catch(\Exception $e)
 			{
-				$this->template->assign('error', array($e->getMessage()));
+				$this->getTemplate()->assign('error', array($e->getMessage()));
 			}
 		}
 		else
 		{
-			$this->template->assign('error', $this->getValidator()->getError());
+			$this->getTemplate()->assign('error', $this->getValidate()->getError());
 		}
 	}
 }

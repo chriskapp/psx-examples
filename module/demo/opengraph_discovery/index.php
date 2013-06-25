@@ -12,16 +12,15 @@ class index extends ViewAbstract
 {
 	public function onLoad()
 	{
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function onPost()
 	{
-		$http = new Http();
+		$http = $this->getHttp();
 		$og   = new Opengraph($http);
 		$url  = $this->getBody()->url('string', array(new Filter\Length(3, 256), new Filter\Url()));
 
-		if(!$this->getValidator()->hasError())
+		if(!$this->getValidate()->hasError())
 		{
 			$response = $og->discover(new Url($url));
 
@@ -34,11 +33,11 @@ class index extends ViewAbstract
 				$response = false;
 			}
 
-			$this->template->assign('response', $response);
+			$this->getTemplate()->assign('response', $response);
 		}
 		else
 		{
-			$this->template->assign('error', $this->getValidator()->getError());
+			$this->getTemplate()->assign('error', $this->getValidate()->getError());
 		}
 	}
 }

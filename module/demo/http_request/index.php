@@ -11,7 +11,7 @@ class index extends ModuleAbstract
 {
 	public function onLoad()
 	{
-		$http    = new Http();
+		$http    = $this->getHttp();
 		$url     = new Url('http://ip.k42b3.com/');
 		$request = new GetRequest($url);
 

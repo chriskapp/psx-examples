@@ -15,16 +15,14 @@ class index extends ViewAbstract
 	{
 		$this->collection = new Html5Inline();
 
-		$this->template->assign('collection', $this->collection);
-
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
+		$this->getTemplate()->assign('collection', $this->collection);
 	}
 
 	public function onPost()
 	{
 		$input = $this->getBody()->input('string', array(new Length(0, 1024)));
 
-		if(!$this->getValidator()->hasError())
+		if(!$this->getValidate()->hasError())
 		{
 			$filter = new Filter($input, $this->collection);
 			$input  = $filter->filter();
@@ -33,7 +31,7 @@ class index extends ViewAbstract
 		}
 		else
 		{
-			$this->template->assign('error', $this->getValidator()->getError());
+			$this->template->assign('error', $this->getValidate()->getError());
 		}
 	}
 }

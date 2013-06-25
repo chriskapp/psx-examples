@@ -16,7 +16,7 @@ class index extends ViewAbstract
 
 	public function onLoad()
 	{
-		$validate = $this->getValidator();
+		$validate = $this->getValidate();
 		$post     = $this->getBody();
 
 		$this->a = $post->a('integer', array(new Filter\Length(0, 255)));
@@ -25,13 +25,11 @@ class index extends ViewAbstract
 		$this->d = $post->d('integer', array(new Filter\Length(0, 255)));
 		$this->s = $post->s('integer', array(new Filter\Length(1, 31)));
 
-		$this->template->assign('a', $this->a);
-		$this->template->assign('b', $this->b);
-		$this->template->assign('c', $this->c);
-		$this->template->assign('d', $this->d);
-		$this->template->assign('s', $this->s);
-
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
+		$this->getTemplate()->assign('a', $this->a);
+		$this->getTemplate()->assign('b', $this->b);
+		$this->getTemplate()->assign('c', $this->c);
+		$this->getTemplate()->assign('d', $this->d);
+		$this->getTemplate()->assign('s', $this->s);
 	}
 
 	public function onPost()
@@ -61,13 +59,13 @@ class index extends ViewAbstract
 		$end[3]   = $end[3] - 1;
 
 		// assign values to template
-		$this->template->assign('ip', $this->formatIpv4($ip));
-		$this->template->assign('subnetmask', $this->formatIpv4($subnet));
-		$this->template->assign('network', $this->formatIpv4($network));
-		$this->template->assign('broadcast', $this->formatIpv4($broadcast));
+		$this->getTemplate()->assign('ip', $this->formatIpv4($ip));
+		$this->getTemplate()->assign('subnetmask', $this->formatIpv4($subnet));
+		$this->getTemplate()->assign('network', $this->formatIpv4($network));
+		$this->getTemplate()->assign('broadcast', $this->formatIpv4($broadcast));
 
-		$this->template->assign('start', $this->formatIpv4($start));
-		$this->template->assign('end', $this->formatIpv4($end));
+		$this->getTemplate()->assign('start', $this->formatIpv4($start));
+		$this->getTemplate()->assign('end', $this->formatIpv4($end));
 	}
 
 	public static function calculateNetwork(array $ip, array $subnet)

@@ -6,6 +6,6 @@ class module extends ViewAbstract
 {
 	public function onLoad()
 	{
-		$this->template->set('module.tpl');
+		$this->getTemplate()->set('module.tpl');
 	}
 }

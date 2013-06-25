@@ -20,26 +20,24 @@ class access_token extends ViewAbstract
 
 	public function onLoad()
 	{
-		$this->http     = new Http();
+		$this->getContainer()->setParameter('session.name', 'oc');
+
+		$this->http     = $this->getHttp();
 		$this->oauth    = new Oauth($this->http);
-		$this->validate = $this->getValidator();
+		$this->validate = $this->getValidate();
 		$this->post     = $this->getBody();
-
-		$this->session  = new Session('oc');
-		$this->session->start();
-
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
+		$this->session  = $this->getSession();
 	}
 
 	public function onGet()
 	{
-		$this->template->assign('oc_consumer_key', $this->session->get('oc_consumer_key'));
-		$this->template->assign('oc_consumer_secret', $this->session->get('oc_consumer_secret'));
-		$this->template->assign('oc_token', $this->session->get('oc_token'));
-		$this->template->assign('oc_token_secret', $this->session->get('oc_token_secret'));
-		$this->template->assign('oc_verifier', $this->session->get('oc_verifier'));
+		$this->getTemplate()->assign('oc_consumer_key', $this->session->get('oc_consumer_key'));
+		$this->getTemplate()->assign('oc_consumer_secret', $this->session->get('oc_consumer_secret'));
+		$this->getTemplate()->assign('oc_token', $this->session->get('oc_token'));
+		$this->getTemplate()->assign('oc_token_secret', $this->session->get('oc_token_secret'));
+		$this->getTemplate()->assign('oc_verifier', $this->session->get('oc_verifier'));
 
-		$this->template->assign('ui_status', 0x0);
+		$this->getTemplate()->assign('ui_status', 0x0);
 	}
 
 	public function onPost()
@@ -58,8 +56,8 @@ class access_token extends ViewAbstract
 
 			$response = $this->oauth->accessToken($url, $consumerKey, $consumerSecret, $token, $tokenSecret, $verifier);
 
-			$this->template->assign('request', $this->http->getRequest());
-			$this->template->assign('response', $this->http->getResponse());
+			$this->getTemplate()->assign('request', $this->http->getRequest());
+			$this->getTemplate()->assign('response', $this->http->getResponse());
 
 			$token       = $response->getToken();
 			$tokenSecret = $response->getTokenSecret();
@@ -70,20 +68,20 @@ class access_token extends ViewAbstract
 				$this->session->set('oc_token_secret', $tokenSecret);
 				$this->session->set('oc_authed', true);
 
-				$this->template->assign('token', $token);
-				$this->template->assign('token_secret', $tokenSecret);
+				$this->getTemplate()->assign('token', $token);
+				$this->getTemplate()->assign('token_secret', $tokenSecret);
 			}
 			else
 			{
-				$this->template->assign('token', '');
-				$this->template->assign('token_secret', '');
+				$this->getTemplate()->assign('token', '');
+				$this->getTemplate()->assign('token_secret', '');
 			}
 		}
 		else
 		{
-			$this->template->assign('error', $this->validate->getError());
+			$this->getTemplate()->assign('error', $this->validate->getError());
 		}
 
-		$this->template->assign('ui_status', 0x1);
+		$this->getTemplate()->assign('ui_status', 0x1);
 	}
 }

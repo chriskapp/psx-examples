@@ -24,6 +24,7 @@ do not hesitate to contact me.</p>
 <h2>Milestones</h2>
 
 <ul>
+	<li>26.06.2013 Update PSX to version 0.6</li>
 	<li>31.03.2013 Update PSX to version 0.5 and improved API demo</li>
 	<li>11.12.2012 Update PSX to version 0.4.7</li>
 	<li>09.10.2012 Added html filter and lexer demo</li>

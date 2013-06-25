@@ -19,14 +19,12 @@ class callback extends ViewAbstract
 
 	public function onLoad()
 	{
-		$this->http     = new Http();
-		$this->session  = new Session('o2c');
-		$this->session->start();
+		$this->getContainer()->setParameter('session.name', 'o2c');
 
-		$this->validate = $this->getValidator();
+		$this->http     = $this->getHttp();
+		$this->session  = $this->getSession();
+		$this->validate = $this->getValidate();
 		$this->post     = $this->getBody();
-
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function onGet()

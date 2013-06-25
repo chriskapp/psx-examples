@@ -15,13 +15,11 @@ class user_authentication extends ViewAbstract
 
 	public function onLoad()
 	{
-		$this->http     = new Http();
+		$this->getContainer()->setParameter('session.name', 'oc');
+
+		$this->http     = $this->getHttp();
 		$this->oauth    = new Oauth($this->http);
-
-		$this->session  = new Session('oc');
-		$this->session->start();
-
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
+		$this->session  = $this->getSession();
 	}
 
 	public function onGet()
@@ -30,13 +28,13 @@ class user_authentication extends ViewAbstract
 
 		if($token !== false)
 		{
-			$this->template->assign('oc_token', $token);
-			$this->template->assign('ui_status', 0x0);
+			$this->getTemplate()->assign('oc_token', $token);
+			$this->getTemplate()->assign('ui_status', 0x0);
 		}
 		else
 		{
-			$this->template->assign('ui_status', 0x1);
-			$this->template->assign('error', array('You dont have received an request token'));
+			$this->getTemplate()->assign('ui_status', 0x1);
+			$this->getTemplate()->assign('error', array('You dont have received an request token'));
 		}
 	}
 }

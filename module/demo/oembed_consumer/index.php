@@ -13,16 +13,15 @@ class index extends ViewAbstract
 {
 	public function onLoad()
 	{
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function onPost()
 	{
-		$http   = new Http();
+		$http   = $this->getHttp();
 		$oembed = new Oembed($http);
 		$url    = $this->getBody()->url('string', array(new Filter\Length(3, 256), new Filter\Url()));
 
-		if(!$this->getValidator()->hasError())
+		if(!$this->getValidate()->hasError())
 		{
 			$url = new Url($url);
 
@@ -33,12 +32,12 @@ class index extends ViewAbstract
 
 			$type = $oembed->discover($url);
 
-			$this->template->assign('oembedUrl', htmlspecialchars($url));
-			$this->template->assign('type', $type);
+			$this->getTemplate()->assign('oembedUrl', htmlspecialchars($url));
+			$this->getTemplate()->assign('type', $type);
 		}
 		else
 		{
-			$this->template->assign('error', $this->getValidator()->getError());
+			$this->getTemplate()->assign('error', $this->getValidate()->getError());
 		}
 	}
 }

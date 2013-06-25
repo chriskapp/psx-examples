@@ -2,17 +2,16 @@
 
 namespace demo\opensearch;
 
-use PSX\Opensearch\ProviderAbstract;
+use PSX\ModuleAbstract;
+use PSX\Opensearch\Writer;
 
-class index extends ProviderAbstract
+class index extends ModuleAbstract
 {
 	public function onLoad()
 	{
-		$this->setConfig('PSX Search', 'And a more detailed description');
-
-		$this->addUrl('http://example.com/?q={searchTerms}&pw={startPage?}&format=atom', 'application/atom+xml');
-
-		$this->close();
+		$writer = new Writer('PSX Search', 'And a more detailed description');
+		$writer->addUrl('http://example.com/?q={searchTerms}&pw={startPage?}&format=atom', 'application/atom+xml');
+		$writer->output();
 	}
 }
 

@@ -12,16 +12,15 @@ class index extends ViewAbstract
 {
 	public function onLoad()
 	{
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function onPost()
 	{
 		$src = $this->getBody()->src('string', array(new Filter\Length(6, 256), new Filter\Url()));
 
-		if(!$this->getValidator()->hasError())
+		if(!$this->getValidate()->hasError())
 		{
-			$http     = new Http();
+			$http     = $this->getHttp();
 			$request  = new GetRequest($src);
 			$request->setFollowLocation(true);
 			$response = $http->request($request);
@@ -40,12 +39,12 @@ class index extends ViewAbstract
 				}
 			}
 
-			$this->template->assign('src', $src);
-			$this->template->assign('links', $links);
+			$this->getTemplate()->assign('src', $src);
+			$this->getTemplate()->assign('links', $links);
 		}
 		else
 		{
-			$this->template->assign('error', $this->getValidator()->getError());
+			$this->getTemplate()->assign('error', $this->getValidate()->getError());
 		}
 	}
 }

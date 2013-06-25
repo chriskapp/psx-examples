@@ -18,17 +18,15 @@ class index extends ViewAbstract
 
 	public function onLoad()
 	{
-		$this->http     = new Http();
-		$this->session  = new Session('o2c');
-		$this->session->start();
+		$this->getContainer()->setParameter('session.name', 'o2c');
 
-		$this->validate = $this->getValidator();
+		$this->http     = $this->getHttp();
+		$this->session  = $this->getSession();
+		$this->validate = $this->getValidate();
 		$this->post     = $this->getBody();
 
-		$this->template->assign('oc_client_id', $this->session->get('oc_client_id'));
-		$this->template->assign('oc_client_secret', $this->session->get('oc_client_secret'));
-
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
+		$this->getTemplate()->assign('oc_client_id', $this->session->get('oc_client_id'));
+		$this->getTemplate()->assign('oc_client_secret', $this->session->get('oc_client_secret'));
 	}
 
 	public function onGet()
@@ -70,7 +68,7 @@ class index extends ViewAbstract
 		}
 		else
 		{
-			$this->template->assign('error', $this->validate->getError());
+			$this->getTemplate()->assign('error', $this->validate->getError());
 		}
 	}
 }

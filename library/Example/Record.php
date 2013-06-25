@@ -13,22 +13,13 @@ use PSX\Urn;
 
 class Record extends TableAbstract
 {
-	public $id;
-	public $place;
-	public $region;
-	public $population;
-	public $users;
-	public $world_users;
-	public $datetime;
-
-	protected $_config;
-
-	public function __construct(TableInterface $table, Config $config)
-	{
-		parent::__construct($table);
-		
-		$this->_config = $config;
-	}
+	protected $id;
+	protected $place;
+	protected $region;
+	protected $population;
+	protected $users;
+	protected $world_users;
+	protected $datetime;
 
 	public function setId($id)
 	{
@@ -74,17 +65,9 @@ class Record extends TableAbstract
 	{
 		switch($result->getType())
 		{
-			case WriterInterface::JSON:
-			case WriterInterface::XML:
-
-				return $this->getFields();
-
-				break;
-
 			case WriterInterface::RSS:
-
 				$title       = $this->region;
-				$link        = $this->_config['psx_url'] . '/index.php/demo/api/id/' . $this->id;
+				$link        = 'http://example.phpsx.org/index.php/demo/api/id/' . $this->id;
 				$description = sprintf('Population: %s, Users: %s', $this->population, $this->users);
 
 				$item = $result->getWriter()->createItem();
@@ -95,11 +78,9 @@ class Record extends TableAbstract
 				$item->setAuthor('Foobar');
 
 				return $item;
-
 				break;
 
 			case WriterInterface::ATOM:
-
 				$title = $this->region;
 				$id    = $this->id;
 				$date  = $this->getDate();
@@ -110,17 +91,14 @@ class Record extends TableAbstract
 				$entry->setId($id);
 				$entry->setUpdated($date);
 				$entry->addAuthor('Foobar', Urn::buildUrn(array('user', '1')));
-				$entry->addLink($this->_config['psx_url'] . '/index.php/demo/api/id/' . $this->id, 'alternate', 'text/html');
+				$entry->addLink('http://example.phpsx.org/index.php/demo/api/id/' . $this->id, 'alternate', 'text/html');
 				$entry->setContent(sprintf('Population: %s, Users: %s', $this->population, $this->users), 'text');
 
 				return $entry;
-
 				break;
 
 			default:
-
-				throw new Exception('Writer is not supported');
-
+				return parent::export($result);
 				break;
 		}
 	}

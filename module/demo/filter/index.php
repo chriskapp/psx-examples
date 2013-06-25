@@ -10,14 +10,12 @@ class index extends ViewAbstract
 {
 	public function onLoad()
 	{
-		$this->template->assign('result', $this->getPostResult($this->getBody()));
+		$this->getTemplate()->assign('result', $this->getPostResult($this->getBody()));
 
-		if($this->getValidator()->hasError())
+		if($this->getValidate()->hasError())
 		{
-			$this->template->assign('error', $this->getValidator()->getError());
+			$this->getTemplate()->assign('error', $this->getValidate()->getError());
 		}
-
-		$this->template->set(str_replace('\\', DIRECTORY_SEPARATOR, __CLASS__) . '.tpl');
 	}
 
 	public function getPostResult(Input $input)
