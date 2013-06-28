@@ -4,7 +4,7 @@ namespace demo\html_filter;
 
 use PSX\Filter\Length;
 use PSX\Html\Filter;
-use PSX\Html\Filter\Collection\Html5Inline;
+use PSX\Html\Filter\Collection\Html5Text;
 use PSX\Module\ViewAbstract;
 
 class index extends ViewAbstract
@@ -13,7 +13,7 @@ class index extends ViewAbstract
 
 	public function onLoad()
 	{
-		$this->collection = new Html5Inline();
+		$this->collection = new Html5Text();
 
 		$this->getTemplate()->assign('collection', $this->collection);
 	}
@@ -27,11 +27,11 @@ class index extends ViewAbstract
 			$filter = new Filter($input, $this->collection);
 			$input  = $filter->filter();
 
-			$this->template->assign('input', $input);
+			$this->getTemplate()->assign('input', $input);
 		}
 		else
 		{
-			$this->template->assign('error', $this->getValidate()->getError());
+			$this->getTemplate()->assign('error', $this->getValidate()->getError());
 		}
 	}
 }
