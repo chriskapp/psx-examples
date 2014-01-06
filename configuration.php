@@ -28,30 +28,20 @@ $config = array(
 	'tbl_example'             => 'psx_example',
 
 	'psx_url'                 => 'http://example.phpsx.org',
-	'psx_dispatch'            => '',
-	'psx_timezone'            => 'Europe/Berlin',
+	'psx_dispatch'            => 'index.php/',
+	'psx_timezone'            => 'UTC',
 	'psx_gzip'                => false,
 	'psx_debug'               => true,
-
-	'psx_module_default'      => 'browse',
-	'psx_module_input'        => isset($_GET['x']) ? $_GET['x'] : (isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : (isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : '')),
-	'psx_module_input_length' => 256,
 
 	'psx_sql_host'            => 'localhost',
 	'psx_sql_user'            => 'root',
 	'psx_sql_pw'              => '',
 	'psx_sql_db'              => 'psx',
 
-	'psx_cache_enabled'       => true,
-	'psx_cache_expire'        => 60 * 30,
-
-	'psx_template_dir'        => 'default',
-	'psx_template_default'    => false,
-
+	'psx_routing'             => '../routes',
+	'psx_error_template'      => null,
 	'psx_path_cache'          => '../cache',
 	'psx_path_library'        => '../library',
-	'psx_path_module'         => '../module',
-	'psx_path_template'       => '../template',
 
 );
 

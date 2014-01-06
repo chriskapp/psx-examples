@@ -1,4 +1,9 @@
 
+body
+{
+	padding:8px;
+}
+
 .asc
 {
 	background-image:url(../img/icons/sort_asc.png);
