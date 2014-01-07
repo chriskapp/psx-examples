@@ -1,0 +1,10 @@
+{
+  "require": {
+    "psx/psx": "0.8.*@dev"
+  },
+  "autoload": {
+    "psr-0": {
+      "PSX\\Demo\\": "library/"
+    }
+  }
+}
