@@ -1,0 +1,35 @@
+
+# app
+GET 	 / 								PSX\Demo\Application\Browse
+GET 	 /start 						PSX\Demo\Application\Start
+GET 	 /module						PSX\Demo\Application\Module
+GET 	 /navigation					PSX\Demo\Application\Navigation
+GET 	 /source						PSX\Demo\Application\Source
+GET 	 /template 						PSX\Demo\Application\Template
+
+# demos
+GET 	 /api 							PSX\Demo\Application\Api\Index
+GET 	 /api/example					PSX\Demo\Application\Api\Api
+GET|POST /atom 							PSX\Demo\Application\AtomFeedParser\Index
+GET|POST /filter 						PSX\Demo\Application\Filter\Index
+GET 	 /helloworld 					PSX\Demo\Application\HelloWorld\Index
+GET|POST /htmlfilter 					PSX\Demo\Application\HtmlFilter\Index
+GET|POST /htmllexer 					PSX\Demo\Application\HtmlLexer\Index
+GET|POST /oauth2client 					PSX\Demo\Application\Oauth2Client\Index
+GET|POST /oauth2client/callback 		PSX\Demo\Application\Oauth2Client\Index
+GET|POST /oauth2client/requestapi		PSX\Demo\Application\Oauth2Client\Index
+GET|POST /oauthconsumer 				PSX\Demo\Application\OauthConsumer\Index
+GET|POST /oauthconsumer/authentication  PSX\Demo\Application\OauthConsumer\Authentication
+GET|POST /oauthconsumer/accesstoken		PSX\Demo\Application\OauthConsumer\AccessToken
+GET|POST /oauthconsumer/callback		PSX\Demo\Application\OauthConsumer\Callback
+GET|POST /oauthconsumer/requestapi		PSX\Demo\Application\OauthConsumer\RequestApi
+GET|POST /oembedconsumer 				PSX\Demo\Application\OembedConsumer\Index
+GET|POST /opengraphdiscovery			PSX\Demo\Application\OpengraphDiscovery\Index
+GET|POST /openidconsumer 				PSX\Demo\Application\OpenidConsumer\Index
+GET|POST /openidconsumer/callback 		PSX\Demo\Application\OpenidConsumer\Callback
+GET 	 /opensearch 					PSX\Demo\Application\Opensearch\Index
+GET|POST /rss 							PSX\Demo\Application\RssFeedParser\Index
+GET|POST /subnetting 					PSX\Demo\Application\Subnetting\Index
+GET 	 /template 						PSX\Demo\Application\Template\Index
+GET|POST /webfinger 					PSX\Demo\Application\Webfinger\Index
+GET|POST /yadisdiscovery 				PSX\Demo\Application\YadisDiscovery\Index
