@@ -31,7 +31,7 @@ class Index extends ViewAbstract
 	{
 		if($this->session->get('oc_authed') == true)
 		{
-			$url = $this->config['psx_url'] . '/' . $this->config['psx_dispatch'] . 'demo/oauth_consumer/request_api';
+			$url = $this->config['psx_url'] . '/' . $this->config['psx_dispatch'] . 'oauthconsumer/requestapi';
 
 			header('Location: ' . $url);
 			exit;

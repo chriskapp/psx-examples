@@ -7,23 +7,35 @@ use PSX\Atom\Importer;
 use PSX\Data\Reader;
 use PSX\Http\GetRequest;
 use PSX\Module\ViewAbstract;
+use PSX\Filter;
 
 class Index extends ViewAbstract
 {
 	public function onLoad()
 	{
-		$url = 'http://news.google.com/news?pz=1&cf=all&topic=t&output=atom';
+	}
 
-		$http     = $this->getHttp();
-		$reader   = new Reader\Dom();
-		$request  = new GetRequest($url);
-		$response = $http->request($request);
+	public function onPost()
+	{
+		$url = $this->getInputPost()->url('string', array(new Filter\Length(3, 256), new Filter\Url()));
 
-		$atom     = new Atom();
-		$importer = new Importer();
-		$atom     = $importer->import($atom, $reader->read($response));
+		if(!$this->getValidate()->hasError())
+		{
+			$http     = $this->getHttp();
+			$reader   = new Reader\Dom();
+			$request  = new GetRequest($url);
+			$response = $http->request($request);
 
-		$this->getTemplate()->assign('result', $atom);
-		$this->getTemplate()->assign('feedUrl', $url);
+			$atom     = new Atom();
+			$importer = new Importer();
+			$atom     = $importer->import($atom, $reader->read($response));
+
+			$this->getTemplate()->assign('response', $atom);
+			$this->getTemplate()->assign('feedUrl', $url);
+		}
+		else
+		{
+			$this->getTemplate()->assign('error', $this->getValidate()->getError());
+		}
 	}
 }

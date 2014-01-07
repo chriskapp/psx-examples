@@ -16,7 +16,7 @@
 		redirected them to the callback url. Now we have all credentials
 		to exchange the "Temporary Credential" for an "Token".</p>
 
-		<form method="get" action="<?php echo $url; ?>demo/oauth_consumer/access_token">
+		<form method="get" action="<?php echo $url; ?>oauthconsumer/accesstoken">
 		<input class="btn btn-primary" type="submit" value="Next" />
 		</form>
 

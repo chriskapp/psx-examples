@@ -13,7 +13,7 @@
 	<p>We try to exchange the "Temporary Credential" for an "Token" with
 	that we can access the protected API.</p>
 
-	<form method="post" action="<?php echo $url; ?>demo/oauth_consumer/access_token">
+	<form method="post" action="<?php echo $url; ?>oauthconsumer/accesstoken">
 
 	<table class="table">
 	<colgroup>
@@ -75,7 +75,7 @@
 		in the fields below. For debugging purpose you can see the
 		complete request and response.</p>
 
-		<form method="get" action="<?php echo $url; ?>demo/oauth_consumer/request_api">
+		<form method="get" action="<?php echo $url; ?>oauthconsumer/requestapi">
 		<input class="btn btn-primary" type="submit" value="Next" />
 		</form>
 

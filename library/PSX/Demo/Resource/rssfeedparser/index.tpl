@@ -6,17 +6,42 @@
 </head>
 <body>
 
-<h1><?php echo $result->getTitle(); ?></h1>
 
-<p><small>Feed parsed from: <a href="<?php echo $feedUrl; ?>"><?php echo $feedUrl; ?></a></small></p>
+<h1>Feed parser</h1>
 
-<hr />
+<p>This example demonstrates howto parse an simple RSS feed</p>
 
-<ul>
-	<?php foreach($result as $item): ?>
-	<li><?php echo $item->getTitle(); ?></li>
-	<?php endforeach; ?>
-</ul>
+<?php if(!isset($error)): ?>
+
+	<form method="post" action="<?php echo $self; ?>">
+	<p>
+		<label for="url">URL:</label>
+		<input type="url" name="url" id="url" value="<?php echo !empty($feedUrl) ? htmlspecialchars($feedUrl) : 'http://news.google.com/news?pz=1&cf=all&topic=t&output=rss'; ?>" style="width:312px;" />
+	</p>
+	<p>
+		<input class="btn btn-primary" type="submit" />
+	</p>
+	</form>
+
+	<?php if(isset($response)): ?>
+		<hr />
+		<h1><?php echo $response->getTitle(); ?></h1>
+
+		<p><small>Feed parsed from: <a href="<?php echo htmlspecialchars($feedUrl); ?>"><?php echo htmlspecialchars($feedUrl); ?></a></small></p>
+
+		<ul>
+			<?php foreach($response as $entry): ?>
+			<li><?php echo $entry->getTitle(); ?></li>
+			<?php endforeach; ?>
+		</ul>
+	<?php endif; ?>
+
+<?php else: ?>
+
+	<div class="alert alert-error"><?php echo implode('<br />', $error); ?></div>
+
+<?php endif; ?>
+
 
 </body>
 </html>

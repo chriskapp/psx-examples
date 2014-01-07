@@ -7,7 +7,7 @@ use PSX\Module\ViewAbstract;
 use PSX\Oauth;
 use PSX\Session;
 
-class UserAuthentication extends ViewAbstract
+class Authentication extends ViewAbstract
 {
 	protected $http;
 	protected $oauth;

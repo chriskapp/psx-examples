@@ -14,9 +14,9 @@
 	to an specific URL. If you leave the body blank the psx OAuth client makes
 	an GET request otherwise an POST request. Because of security reasons the
 	body size can not be larger then 1024 signs if you want make larger requests
-	please contact me. Click here to <a href="<?php echo $url; ?>demo/oauth_consumer/request_api/logout">logout</a></p>
+	please contact me. Click here to <a href="<?php echo $url; ?>oauthconsumer/requestapi/logout">logout</a></p>
 
-	<form method="post" action="<?php echo $url; ?>demo/oauth_consumer/request_api">
+	<form method="post" action="<?php echo $url; ?>oauthconsumer/requestapi">
 
 	<table class="table">
 	<colgroup>
@@ -25,7 +25,7 @@
 	</colgroup>
 	<tr>
 		<td><label for="url">URL:</label></td>
-		<td><input class="text" type="url" id="url" name="url" value="http://api.twitter.com/1/account/verify_credentials.xml" /></td>
+		<td><input class="text" type="url" id="url" name="url" value="http://api.twitter.com/1.1/statuses/home_timeline.json" /></td>
 	</tr>
 	<tr>
 		<td><label for="method">Method:</label></td>

@@ -16,7 +16,7 @@
 
 	<p>You have successful authenticated. The psx OpenID client has get the
 	following values from your provider. You can logout
-	<a href="<?php echo $url; ?>demo/openid_consumer/logout">here</a>.</p>
+	<a href="<?php echo $url; ?>openidconsumer/logout">here</a>.</p>
 
 	<dl>
 		<dt>ID</dt>
@@ -26,7 +26,6 @@
 		<dt>Email</dt>
 		<dd><?php echo $email; ?></dd>
 	</dl>
-
 
 <?php else: ?>
 

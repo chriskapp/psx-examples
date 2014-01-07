@@ -29,7 +29,7 @@
 	endpoint and as consumer key and secret the key/secret pair that you have
 	received from the provider.</p>
 
-	<form method="post" action="<?php echo $url; ?>demo/oauth_consumer/request_token">
+	<form method="post" action="<?php echo $url; ?>oauthconsumer/requesttoken">
 
 	<table class="table">
 	<colgroup>
@@ -58,7 +58,7 @@
 	</tr>
 	<tr>
 		<td><label for="callback">Callback:</label></td>
-		<td><input class="text" type="url" id="callback" name="callback" value="<?php echo $url; ?>demo/oauth_consumer/callback" /></td>
+		<td><input class="text" type="url" id="callback" name="callback" value="<?php echo $url; ?>oauthconsumer/callback" /></td>
 	</tr>
 	<tr>
 		<td colspan="2">
@@ -83,7 +83,7 @@
 		them both in the fields below. For debugging purpose you can see the complete
 		request and response.</p>
 
-		<form method="get" action="<?php echo $url; ?>demo/oauth_consumer/user_authentication">
+		<form method="get" action="<?php echo $url; ?>oauthconsumer/authentication">
 		<input class="btn btn-primary" type="submit" value="Next" />
 		</form>
 
