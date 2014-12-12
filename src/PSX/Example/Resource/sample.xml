@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<psx>
+	<sample path="/population" method="GET" type="request" lang="http"><![CDATA[GET /population HTTP/1.1
+Host: example.phpsx.org
+User-Agent: Lynx 2.8.7
+
+]]></sample>
+	<sample path="/population" method="GET" type="response" lang="http"><![CDATA[HTTP/1.1 200 OK
+X-Powered-By: psx
+Content-Length: 3025
+Content-Type: application/json
+
+{
+    "entry": [
+        {
+            "id": 1,
+            "place": "1",
+            "region": "China",
+            "population": {
+                "complete": 1338612968,
+                "users": 360000000,
+                "world": 20.8
+            },
+            "datetime": "2009-11-29T15:21:49+00:00"
+        },
+        ...
+    ]
+}
+]]></sample>
+	<sample path="/population" method="POST" type="request" lang="http"><![CDATA[POST /population HTTP/1.1
+Host: example.phpsx.org
+User-Agent: Lynx 2.8.7
+Content-Type: application/json
+Content-Length: 107
+
+{
+    "place": 2,
+    "region": "Sweden",
+    "population": {
+        "complete": 100,
+        "users": 80,
+        "world": 12.8
+    }
+}
+]]></sample>
+	<sample path="/population" method="POST" type="response" lang="http"><![CDATA[HTTP/1.1 201 Created
+X-Powered-By: psx
+Content-Length: 59
+Content-Type: application/json
+
+{
+    "success": true,
+    "message": "Create successful"
+}
+]]></sample>
+    <sample path="/population" method="PUT" type="request" lang="http"><![CDATA[PUT /population HTTP/1.1
+Host: example.phpsx.org
+User-Agent: Lynx 2.8.7
+Content-Type: application/json
+Content-Length: 31
+
+{
+    "id": 10,
+    "region": "Foo"
+}
+]]></sample>
+    <sample path="/population" method="PUT" type="response" lang="http"><![CDATA[HTTP/1.1 200 OK
+X-Powered-By: psx
+Content-Length: 59
+Content-Type: application/json
+
+{
+    "success": true,
+    "message": "Update successful"
+}
+]]></sample>
+    <sample path="/population" method="DELETE" type="request" lang="http"><![CDATA[DELETE /population HTTP/1.1
+Host: example.phpsx.org
+User-Agent: Lynx 2.8.7
+Content-Type: application/json
+Content-Length: 13
+
+{
+    "id": 10
+}
+]]></sample>
+    <sample path="/population" method="DELETE" type="response" lang="http"><![CDATA[HTTP/1.1 200 OK
+X-Powered-By: psx
+Content-Length: 59
+Content-Type: application/json
+
+{
+    "success": true,
+    "message": "Delete successful"
+}
+]]></sample>
+    <sample path="/population/:id" method="GET" type="request" lang="http"><![CDATA[GET /population/10 HTTP/1.1
+Host: example.phpsx.org
+User-Agent: Lynx 2.8.7
+
+]]></sample>
+    <sample path="/population/:id" method="GET" type="response" lang="http"><![CDATA[HTTP/1.1 200 OK
+X-Powered-By: psx
+Content-Length: 198
+Content-Type: application/json
+
+{
+    "id": 10,
+    "place": 10,
+    "region": "Korea South",
+    "population": {
+        "complete": 48508972,
+        "users": 37475800,
+        "world": 2.2
+    },
+    "datetime": "2009-11-29T15:28:06+00:00"
+}
+]]></sample>
+</psx>
