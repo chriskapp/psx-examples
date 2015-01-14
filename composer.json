@@ -1,6 +1,6 @@
 {
   "require": {
-    "psx/psx": "dev-master"
+    "psx/psx": "0.9.4"
   },
   "autoload": {
     "psr-0": {
