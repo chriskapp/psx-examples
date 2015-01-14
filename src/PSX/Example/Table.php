@@ -57,7 +57,7 @@ class Table extends TableAbstract
 				  FROM psx_example
 				 WHERE id = :id";
 
-		return CurveArray::nest($this->connection->fetchAssoc($sql, array(
+		return CurveArray::nest((array) $this->connection->fetchAssoc($sql, array(
 			'id' => $id,
 		)));
 	}
