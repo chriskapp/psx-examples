@@ -9,7 +9,7 @@ class Update extends SchemaAbstract
 	public function getDefinition()
 	{
 		$entry = $this->getSchema('PSX\Example\Schema\Entry');
-		$entry->getChild('id')->setRequired(true);
+		$entry->get('id')->setRequired(true);
 
 		return $entry;
 	}

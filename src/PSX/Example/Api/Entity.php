@@ -7,8 +7,9 @@ use PSX\Api\Version;
 use PSX\Api\View;
 use PSX\Controller\SchemaApiAbstract;
 use PSX\Data\RecordInterface;
-use PSX\Util\Api\FilterParameter;
 use PSX\Http\Exception as HttpException;
+use PSX\Loader\Context;
+use PSX\Util\Api\FilterParameter;
 
 class Entity extends SchemaApiAbstract
 {
@@ -26,10 +27,10 @@ class Entity extends SchemaApiAbstract
 
 	public function getDocumentation()
 	{
-		$view = new View();
-		$view->setGet($this->schemaManager->getSchema('PSX\Example\Schema\Entry'));
+		$builder = new View\Builder(View::STATUS_ACTIVE, $this->context->get(Context::KEY_PATH));
+		$builder->setGet($this->schemaManager->getSchema('PSX\Example\Schema\Entry'));
 
-		return new Documentation\Simple($view);
+		return new Documentation\Simple($builder->getView());
 	}
 
 	protected function doGet(Version $version)

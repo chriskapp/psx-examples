@@ -9,4 +9,5 @@ GET                 /population/:id              PSX\Example\Api\Entity
 GET                 /tool/rest                   PSX\Controller\Tool\RestController
 GET                 /tool/routing                PSX\Controller\Tool\RoutingController
 GET                 /tool/wsdl/:version/*path    PSX\Controller\Tool\WsdlGeneratorController
-GET                 /tool/swagger/:version/*path PSX\Controller\Tool\SwaggerGeneratorController
+GET                 /tool/swagger/:version/*path PSX\Controller\Tool\SwaggerGeneratorController::doDetail
+GET                 /tool/raml/:version/*path    PSX\Controller\Tool\RamlGeneratorController

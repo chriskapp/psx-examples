@@ -9,12 +9,12 @@ class Create extends SchemaAbstract
 	public function getDefinition()
 	{
 		$entry = $this->getSchema('PSX\Example\Schema\Entry');
-		$entry->getChild('place')->setRequired(true);
-		$entry->getChild('region')->setRequired(true);
-		$entry->getChild('population')->setRequired(true);
-		$entry->getChild('population')->getChild('complete')->setRequired(true);
-		$entry->getChild('population')->getChild('users')->setRequired(true);
-		$entry->getChild('population')->getChild('world')->setRequired(true);
+		$entry->get('place')->setRequired(true);
+		$entry->get('region')->setRequired(true);
+		$entry->get('population')->setRequired(true);
+		$entry->get('population')->get('complete')->setRequired(true);
+		$entry->get('population')->get('users')->setRequired(true);
+		$entry->get('population')->get('world')->setRequired(true);
 
 		return $entry;
 	}
