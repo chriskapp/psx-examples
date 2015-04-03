@@ -3,6 +3,7 @@
 namespace PSX\Example;
 
 use PSX\Sql\TableAbstract;
+use PSX\Sql\NestRule;
 use PSX\Util\CurveArray;
 
 /**
@@ -35,14 +36,17 @@ class Table extends TableAbstract
 		$sql = "  SELECT id,
 				         place,
 				         region,
-				         population AS population_complete,
-				         users AS population_users,
-				         world_users AS population_world,
+				         population AS complete,
+				         users AS users,
+				         world_users AS world,
 				         datetime
 				    FROM psx_example
 				ORDER BY population DESC";
 
-		return CurveArray::nest($this->connection->fetchAll($sql));
+		$rule = new NestRule();
+		$rule->add('population', ['complete', 'users', 'world']);
+
+		return $this->project($sql, [], null, $rule);
 	}
 
 	public function getPopulation($id)
@@ -50,15 +54,16 @@ class Table extends TableAbstract
 		$sql = "SELECT id,
 				       place,
 				       region,
-				       population AS population_complete,
-				       users AS population_users,
-				       world_users AS population_world,
+				       population AS complete,
+				       users AS users,
+				       world_users AS world,
 				       datetime
 				  FROM psx_example
 				 WHERE id = :id";
 
-		return CurveArray::nest((array) $this->connection->fetchAssoc($sql, array(
-			'id' => $id,
-		)));
+		$rule = new NestRule();
+		$rule->add('population', ['complete', 'users', 'world']);
+
+		return current($this->project($sql, ['id' => $id], null, $rule));
 	}
 }

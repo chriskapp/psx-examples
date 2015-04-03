@@ -3,8 +3,8 @@
 namespace PSX\Example\Api;
 
 use PSX\Api\Documentation;
+use PSX\Api\Documentation\Parser\Raml;
 use PSX\Api\Version;
-use PSX\Api\View;
 use PSX\Controller\SchemaApiAbstract;
 use PSX\Data\RecordInterface;
 use PSX\Http\Exception as HttpException;
@@ -27,15 +27,13 @@ class Entity extends SchemaApiAbstract
 
 	public function getDocumentation()
 	{
-		$builder = new View\Builder(View::STATUS_ACTIVE, $this->context->get(Context::KEY_PATH));
-		$builder->setGet($this->schemaManager->getSchema('PSX\Example\Schema\Entry'));
-
-		return new Documentation\Simple($builder->getView());
+		return Raml::fromFile(__DIR__ . '/../Resource/population.raml', $this->context->get(Context::KEY_PATH));
 	}
 
 	protected function doGet(Version $version)
 	{
-		$entry = $this->tableManager->getTable('PSX\Example\Table')->getPopulation($this->getUriFragment('id'));
+		$id    = $this->pathParameters->getProperty('id');
+		$entry = $this->tableManager->getTable('PSX\Example\Table')->getPopulation($id);
 
 		if(empty($entry))
 		{
@@ -51,9 +49,25 @@ class Entity extends SchemaApiAbstract
 
 	protected function doUpdate(RecordInterface $record, Version $version)
 	{
+		$id = $this->pathParameters->getProperty('id');
+
+		// @TODO update record
+
+		return array(
+			'success' => true,
+			'message' => 'Update successful',
+		);
 	}
 
 	protected function doDelete(RecordInterface $record, Version $version)
 	{
+		$id = $this->pathParameters->getProperty('id');
+
+		// @TODO delete record
+
+		return array(
+			'success' => true,
+			'message' => 'Delete successful',
+		);
 	}
 }

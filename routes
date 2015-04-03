@@ -4,7 +4,7 @@ GET                 /doc/:version/*path          PSX\Example\Application\Index::
 GET                 /doc-meta/welcome            PSX\Example\Application\Welcome
 
 GET|POST|PUT|DELETE /population                  PSX\Example\Api\Collection
-GET                 /population/:id              PSX\Example\Api\Entity
+GET|POST|PUT|DELETE /population/:id              PSX\Example\Api\Entity
 
 GET                 /tool/rest                   PSX\Controller\Tool\RestController
 GET                 /tool/routing                PSX\Controller\Tool\RoutingController

@@ -2,8 +2,8 @@
 
 namespace PSX\Example\Application;
 
-use PSX\Api\View\Generator;
-use PSX\Api\View\Generator\Html\Sample\Loader;
+use PSX\Api\Resource\Generator;
+use PSX\Api\Resource\Generator\Html\Sample\Loader;
 use PSX\Controller\Tool\DocumentationController;
 use PSX\Data\Schema\Generator as SchemaGenerator;
 
