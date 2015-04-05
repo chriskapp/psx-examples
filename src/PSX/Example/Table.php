@@ -4,7 +4,6 @@ namespace PSX\Example;
 
 use PSX\Sql\TableAbstract;
 use PSX\Sql\NestRule;
-use PSX\Util\CurveArray;
 
 /**
  * Table

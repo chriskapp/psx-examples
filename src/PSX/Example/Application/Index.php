@@ -2,25 +2,36 @@
 
 namespace PSX\Example\Application;
 
-use PSX\Api\Resource\Generator;
-use PSX\Api\Resource\Generator\Html\Sample\Loader;
-use PSX\Controller\Tool\DocumentationController;
-use PSX\Data\Schema\Generator as SchemaGenerator;
+use PSX\Controller\ApiAbstract;
 
-class Index extends DocumentationController
+class Index extends ApiAbstract
 {
-	protected function getMetaLinks()
-	{
-		return array(
-			'Welcome' => $this->reverseRouter->getAbsolutePath('PSX\Example\Application\Welcome'),
-		);
-	}
+	/**
+	 * @Inject
+	 */
+	protected $reverseRouter;
 
-	protected function getViewGenerators()
+	public function onGet()
 	{
-		return array(
-			'Schema'  => new Generator\Html\Schema(new SchemaGenerator\Html()),
-			'Example' => new Generator\Html\Sample(new Loader\XmlFile(__DIR__ . '/../Resource/sample.xml')),
-		);
+		$this->setBody([
+			'message' => 'Welcome, this is an example API endpoint build with the PSX framework',
+			'links'   => [[
+				'rel'   => 'describes', 
+				'title' => 'Documentation of the available API endpoints',
+				'href'  => $this->reverseRouter->getBasePath() . '/documentation',
+			],[
+				'rel'   => 'contents', 
+				'title' => 'Example internet population API',
+				'href'  => $this->reverseRouter->getUrl('PSX\Example\Api\Collection'),
+			],[
+				'rel'   => 'about', 
+				'title' => 'Informations about the REST API framework',
+				'href'  => 'http://phpsx.org',
+			],[
+				'rel'   => 'related', 
+				'title' => 'Source code of this example API',
+				'href'  => 'https://github.com/k42b3/psx-examples',
+			]]
+		]);
 	}
 }

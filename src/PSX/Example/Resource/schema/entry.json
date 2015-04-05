@@ -23,7 +23,8 @@
                     "maximum": 100,
                     "description": "Percentage users of the world"
                 }
-            }
+            },
+            "required": ["complete", "users", "world"]
         }
     },
     "properties": {
@@ -48,5 +49,6 @@
             "format": "date-time",
             "description": "Date when the entry was created"
         }
-    }
+    },
+    "required": ["place", "region", "population"]
 }

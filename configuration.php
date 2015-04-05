@@ -20,7 +20,7 @@ return array(
 	'psx_timezone'            => 'UTC',
 
 	// Whether PSX runs in debug mode or not. If not error reporting is set to 0
-	'psx_debug'               => true,
+	'psx_debug'               => false,
 
 	// Your SQL connections
 	'psx_sql_host'            => 'localhost',
