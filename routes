@@ -1,11 +1,11 @@
 
-GET                 /                            PSX\Example\Application\Index
-GET                 /doc                         PSX\Example\Application\Documentation::doIndex
-GET                 /doc/:version/*path          PSX\Example\Application\Documentation::doDetail
+GET /                            PSX\Example\Application\Index
 
-GET|POST|PUT|DELETE /population                  PSX\Example\Api\Collection
-GET|POST|PUT|DELETE /population/:id              PSX\Example\Api\Entity
+ANY /population                  PSX\Example\Api\Collection
+ANY /population/:id              PSX\Example\Api\Entity
 
-GET                 /tool/wsdl/:version/*path    PSX\Controller\Tool\WsdlGeneratorController
-GET                 /tool/swagger/:version/*path PSX\Controller\Tool\SwaggerGeneratorController::doDetail
-GET                 /tool/raml/:version/*path    PSX\Controller\Tool\RamlGeneratorController
+GET /doc                         PSX\Framework\Controller\Tool\DocumentationController::doIndex
+GET /doc/:version/*path          PSX\Framework\Controller\Tool\DocumentationController::doDetail
+GET /tool/wsdl/:version/*path    PSX\Framework\Controller\Generator\WsdlController
+GET /tool/swagger/:version/*path PSX\Framework\Controller\Generator\SwaggerController::doDetail
+GET /tool/raml/:version/*path    PSX\Framework\Controller\Generator\RamlController

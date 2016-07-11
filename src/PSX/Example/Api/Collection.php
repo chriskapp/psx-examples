@@ -2,33 +2,25 @@
 
 namespace PSX\Example\Api;
 
-use PSX\Api\Documentation;
-use PSX\Api\Documentation\Parser\Raml;
-use PSX\Api\Version;
-use PSX\Controller\SchemaApiAbstract;
-use PSX\Data\RecordInterface;
-use PSX\Loader\Context;
+use PSX\Api\Parser\Raml;
+use PSX\Framework\Controller\SchemaApiAbstract;
+use PSX\Framework\Loader\Context;
+use PSX\Record\RecordInterface;
 
 class Collection extends SchemaApiAbstract
 {
 	/**
 	 * @Inject
-	 * @var PSX\Sql\TableManager
+	 * @var \PSX\Sql\TableManager
 	 */
 	protected $tableManager;
 
-	/**
-	 * @Inject
-	 * @var PSX\Data\SchemaManager
-	 */
-	protected $schemaManager;
-
-	public function getDocumentation()
+	public function getDocumentation($version = null)
 	{
 		return Raml::fromFile(__DIR__ . '/../Resource/population.raml', $this->context->get(Context::KEY_PATH));
 	}
 
-	protected function doGet(Version $version)
+	protected function doGet()
 	{
 		return array(
 			'totalResults' => $this->tableManager->getTable('PSX\Example\Table')->getCount(),
@@ -36,7 +28,7 @@ class Collection extends SchemaApiAbstract
 		);
 	}
 
-	protected function doCreate(RecordInterface $record, Version $version)
+	protected function doCreate($record)
 	{
 		// @TODO insert record
 
@@ -46,11 +38,11 @@ class Collection extends SchemaApiAbstract
 		);
 	}
 
-	protected function doUpdate(RecordInterface $record, Version $version)
+	protected function doUpdate($record)
 	{
 	}
 
-	protected function doDelete(RecordInterface $record, Version $version)
+	protected function doDelete($record)
 	{
 	}
 }

@@ -1,6 +1,6 @@
 {
   "require": {
-    "psx/psx": "~1.0"
+    "psx/psx": "~2.0"
   },
   "autoload": {
     "psr-0": {

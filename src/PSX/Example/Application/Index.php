@@ -2,7 +2,7 @@
 
 namespace PSX\Example\Application;
 
-use PSX\Controller\ApiAbstract;
+use PSX\Framework\Controller\ApiAbstract;
 
 class Index extends ApiAbstract
 {

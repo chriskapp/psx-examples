@@ -32,37 +32,35 @@ class Table extends TableAbstract
 
 	public function getPopulations()
 	{
-		$sql = "  SELECT id,
-				         place,
-				         region,
-				         population AS complete,
-				         users AS users,
-				         world_users AS world,
-				         datetime
-				    FROM psx_example
-				ORDER BY population DESC";
+        $definition = $this->doCollection([$this, 'getAll'], [], [
+            'id' => 'id',
+            'place' => 'place',
+            'region' => 'region',
+            'population' => [
+                'complete' => 'population',
+                'users' => 'users',
+                'world' => 'world_users',
+            ],
+            'datetime' => 'datetime',
+        ]);
 
-		$rule = new NestRule();
-		$rule->add('population', ['complete', 'users', 'world']);
-
-		return $this->project($sql, [], null, $rule);
+		return $this->build($definition);
 	}
 
 	public function getPopulation($id)
 	{
-		$sql = "SELECT id,
-				       place,
-				       region,
-				       population AS complete,
-				       users AS users,
-				       world_users AS world,
-				       datetime
-				  FROM psx_example
-				 WHERE id = :id";
+        $definition = $this->doEntity([$this, 'get'], [$id], [
+            'id' => 'id',
+            'place' => 'place',
+            'region' => 'region',
+            'population' => [
+                'complete' => 'population',
+                'users' => 'users',
+                'world' => 'world_users',
+            ],
+            'datetime' => 'datetime',
+        ]);
 
-		$rule = new NestRule();
-		$rule->add('population', ['complete', 'users', 'world']);
-
-		return current($this->project($sql, ['id' => $id], null, $rule));
+        return $this->build($definition);
 	}
 }
