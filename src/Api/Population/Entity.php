@@ -3,6 +3,7 @@
 namespace Sample\Api\Population;
 
 use PSX\Framework\Controller\SchemaApiAbstract;
+use PSX\Http\Exception as StatusCode;
 use Sample\Model\Message;
 
 /**
@@ -35,6 +36,8 @@ class Entity extends SchemaApiAbstract
      */
     protected function doPut($record)
     {
+        throw new StatusCode\NotImplementedException('Not available in demo');
+
         $this->populationService->update(
             $this->pathParameters['id'],
             $record->getPlace(),
@@ -52,6 +55,8 @@ class Entity extends SchemaApiAbstract
      */
     protected function doDelete($record)
     {
+        throw new StatusCode\NotImplementedException('Not available in demo');
+
         $this->populationService->delete(
             $this->pathParameters['id']
         );

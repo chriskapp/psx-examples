@@ -3,6 +3,7 @@
 namespace Sample\Api\Population;
 
 use PSX\Framework\Controller\SchemaApiAbstract;
+use PSX\Http\Exception as StatusCode;
 use Sample\Model\Message;
 
 class Collection extends SchemaApiAbstract
@@ -33,6 +34,8 @@ class Collection extends SchemaApiAbstract
      */
     protected function doPost($record)
     {
+        throw new StatusCode\NotImplementedException('Not available in demo');
+
         $this->populationService->create(
             $record->getPlace(),
             $record->getRegion(),
