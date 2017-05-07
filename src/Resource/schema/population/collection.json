@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "id": "http://example.phpsx.org/foo/bar#",
+    "id": "http://example.phpsx.org/population#",
     "title": "collection",
     "description": "Collection result",
     "type": "object",
@@ -11,7 +11,7 @@
         "entry": {
             "type": "array",
             "items": {
-                "$ref": "file:///entry.json"
+                "$ref": "file:///entity.json"
             }
         }
     }

@@ -1,11 +1,14 @@
 
-GET /                            PSX\Example\Application\Index
+# API
+GET /                            Sample\Api\Index
+ANY /population                  Sample\Api\Population\Collection
+ANY /population/:id              Sample\Api\Population\Entity
 
-ANY /population                  PSX\Example\Api\Collection
-ANY /population/:id              PSX\Example\Api\Entity
-
-GET /doc                         PSX\Framework\Controller\Tool\DocumentationController::doIndex
-GET /doc/:version/*path          PSX\Framework\Controller\Tool\DocumentationController::doDetail
-GET /tool/wsdl/:version/*path    PSX\Framework\Controller\Generator\WsdlController
-GET /tool/swagger/:version/*path PSX\Framework\Controller\Generator\SwaggerController::doDetail
+# tool controller
+GET /tool/discovery              PSX\Framework\Controller\Tool\DiscoveryController
+GET /tool/routing                PSX\Framework\Controller\Tool\RoutingController
+GET /tool/doc                    PSX\Framework\Controller\Tool\DocumentationController::doIndex
+GET /tool/doc/:version/*path     PSX\Framework\Controller\Tool\DocumentationController::doDetail
 GET /tool/raml/:version/*path    PSX\Framework\Controller\Generator\RamlController
+GET /tool/swagger/:version/*path PSX\Framework\Controller\Generator\SwaggerController
+ANY /tool/soap                   PSX\Framework\Controller\Proxy\SoapController
