@@ -1,6 +1,6 @@
 <?php
 
-namespace Sample\Model;
+namespace App\Model;
 
 /**
  * @Title("population")

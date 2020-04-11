@@ -11,10 +11,10 @@ return array(
 
     // The url to the psx public folder (i.e. http://127.0.0.1/psx/public, 
     // http://localhost.com or //localhost.com)
-    'psx_url'                 => 'http://example.phpsx.org',
+    'psx_url'                 => 'http://127.0.0.1/websites/example.phpsx.org/public',
 
     // The input path 'index.php/' or '' if you use mod_rewrite
-    'psx_dispatch'            => '',
+    'psx_dispatch'            => 'index.php/',
 
     // The default timezone
     'psx_timezone'            => 'UTC',
@@ -31,7 +31,7 @@ return array(
     ],
 
     // Path to the routing file
-    'psx_routing'             => __DIR__ . '/routes',
+    'psx_routing'             => __DIR__ . '/routes.php',
 
     // Folder locations
     'psx_path_cache'          => __DIR__ . '/cache',

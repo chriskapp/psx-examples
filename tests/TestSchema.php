@@ -1,6 +1,6 @@
 <?php
 
-namespace Sample\Tests;
+namespace App\Tests;
 
 use Doctrine\DBAL\Schema\Schema;
 

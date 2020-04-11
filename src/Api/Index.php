@@ -1,6 +1,6 @@
 <?php
 
-namespace Sample\Api;
+namespace App\Api;
 
 use PSX\Framework\Controller\ApiAbstract;
 

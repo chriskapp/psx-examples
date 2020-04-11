@@ -1,10 +1,10 @@
 <?php
 
-namespace Sample\Service;
+namespace App\Service;
 
 use PSX\Http\Exception as StatusCode;
-use Sample\Model\Collection;
-use Sample\Table\Population as TablePopulation;
+use App\Model\Collection;
+use App\Table\Population as TablePopulation;
 
 class Population
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sample\Model;
+namespace App\Model;
 
 /**
  * @Title("collection")
@@ -14,7 +14,7 @@ class Collection
 
     /**
      * @Type("array")
-     * @Items(@Ref("Sample\Model\Population"))
+     * @Items(@Ref("App\Model\Population"))
      */
     protected $entry;
 

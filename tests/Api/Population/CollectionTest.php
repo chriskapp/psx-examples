@@ -1,9 +1,9 @@
 <?php
 
-namespace Sample\Tests\Api\Population;
+namespace App\Tests\Api\Population;
 
 use PSX\Framework\Test\Environment;
-use Sample\Tests\ApiTestCase;
+use App\Tests\ApiTestCase;
 
 class CollectionTest extends ApiTestCase
 {

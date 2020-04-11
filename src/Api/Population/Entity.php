@@ -1,10 +1,11 @@
 <?php
 
-namespace Sample\Api\Population;
+namespace App\Api\Population;
 
 use PSX\Framework\Controller\SchemaApiAbstract;
+use PSX\Http\Environment\HttpContextInterface;
 use PSX\Http\Exception as StatusCode;
-use Sample\Model\Message;
+use App\Model\Message;
 
 /**
  * @Title("Population")
@@ -15,31 +16,31 @@ class Entity extends SchemaApiAbstract
 {
     /**
      * @Inject
-     * @var \Sample\Service\Population
+     * @var \App\Service\Population
      */
     protected $populationService;
 
     /**
-     * @Outgoing(code=200, schema="Sample\Model\Population")
+     * @Outgoing(code=200, schema="App\Model\Population")
      */
-    protected function doGet()
+    protected function doGet(HttpContextInterface $context)
     {
         return $this->populationService->get(
-            $this->pathParameters['id']
+            $context->getUriFragment('id')
         );
     }
 
     /**
-     * @Incoming(schema="Sample\Model\Population")
-     * @Outgoing(code=200, schema="Sample\Model\Message")
-     * @param \Sample\Model\Population $record
+     * @Incoming(schema="App\Model\Population")
+     * @Outgoing(code=200, schema="App\Model\Message")
+     * @param \App\Model\Population $record
      */
-    protected function doPut($record)
+    protected function doPut($record, HttpContextInterface $context)
     {
         throw new StatusCode\NotImplementedException('Not available in demo');
 
         $this->populationService->update(
-            $this->pathParameters['id'],
+            $context->getUriFragment('id'),
             $record->getPlace(),
             $record->getRegion(),
             $record->getPopulation(),
@@ -51,14 +52,14 @@ class Entity extends SchemaApiAbstract
     }
 
     /**
-     * @Outgoing(code=200, schema="Sample\Model\Message")
+     * @Outgoing(code=200, schema="App\Model\Message")
      */
-    protected function doDelete($record)
+    protected function doDelete($record, HttpContextInterface $context)
     {
         throw new StatusCode\NotImplementedException('Not available in demo');
 
         $this->populationService->delete(
-            $this->pathParameters['id']
+            $context->getUriFragment('id')
         );
 
         return new Message(true, 'Delete successful');

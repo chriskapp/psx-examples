@@ -7,7 +7,7 @@ If you want load an different configuration depending on the environment you can
 change the "config.file" parameter.
 */
 
-$container = new Sample\Dependency\Container();
+$container = new App\Dependency\Container();
 $container->setParameter('config.file', __DIR__ . '/configuration.php');
 
 return $container;

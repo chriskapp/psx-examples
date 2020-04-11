@@ -1,17 +1,17 @@
 <?php
 
-namespace Sample\Dependency;
+namespace App\Dependency;
 
 use PSX\Framework\Dependency\DefaultContainer;
-use Sample\Service;
-use Sample\Table;
+use App\Service;
+use App\Table;
 
 class Container extends DefaultContainer
 {
     /**
-     * @return \Sample\Service\Population
+     * @return \App\Service\Population
      */
-    public function getPopulationService()
+    public function getPopulationService(): Service\Population
     {
         return new Service\Population(
             $this->get('table_manager')->getTable(Table\Population::class)
